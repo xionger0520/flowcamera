@@ -117,7 +117,6 @@ public class FlowCameraView extends FrameLayout {
                 mSwitchCamera.setVisibility(INVISIBLE);
                 mFlashLamp.setVisibility(INVISIBLE);
                 mVideoView.setCaptureMode(CameraView.CaptureMode.IMAGE);
-                //mVideoView.setPinchToZoomEnabled(false);
 
                 LogUtil.e("systimestamp222---"+System.currentTimeMillis());
                 //测试新版本 CameraView
