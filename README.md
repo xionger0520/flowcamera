@@ -90,7 +90,7 @@ xionger0520
 
 1004695331@qq.com
 
-## 如果本开源项目解决了你的小问题  大佬可以赏小的一点
+## 如果本开源项目解决了你的小问题  那么。。。
 
 <img src="https://github.com/xionger0520/flowcamera/blob/master/assets/alipayicon.jpg" width="200"/>
 
