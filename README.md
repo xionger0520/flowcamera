@@ -5,7 +5,7 @@ https://github.com/CJT2325/CameraView
 
 <img src="https://github.com/xionger0520/flowcamera/blob/master/assets/mmp2.jpg" width="200"/>
 
-因为使用的是原生系统相机的api所以有一些兼容性的问题 
+因为使用的是原生系统相机的api 所以有一些兼容性的问题 
 在Android Q系统下有不少bug 作者可能也由于太忙已经很久没更新了
 鉴于官网宣传CameraX又那么好  于是我就用CameraX重写了底层关于相机操作的代码
 此项目我会尽量抽时间修复问题 因为我自己也用
