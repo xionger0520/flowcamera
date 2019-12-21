@@ -4,6 +4,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.camera.camera2.Camera2Config;
 import androidx.camera.core.CameraXConfig;
+
 import com.blankj.utilcode.util.Utils;
 
 
