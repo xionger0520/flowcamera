@@ -1,0 +1,46 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.github.dcendents.android-maven'
+group = 'com.github.xionger0520'
+android {
+    compileSdkVersion 29
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    // CameraX core library
+    def camerax_version = "1.0.0-alpha08"
+    // CameraX view library
+    def camerax_view_version = "1.0.0-alpha05"
+    api "androidx.camera:camera-core:$camerax_version"
+    // If you want to use Camera2 extensions
+    api "androidx.camera:camera-camera2:$camerax_version"
+    // If you to use the Camera View class
+    api "androidx.camera:camera-view:$camerax_view_version"
+
+    api 'com.github.bumptech.glide:glide:4.10.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
+    // PhotoView
+    api 'com.github.chrisbanes:PhotoView:2.3.0'
+}
