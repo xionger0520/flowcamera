@@ -120,7 +120,9 @@ val flowCamera = findViewById<FlowCameraView>(R.id.flowCamera)
 
 ## 作者
 
-xionger0520
+如果有其他的定制需求可以联系我
+
+wechat: zhouhaibin8357
 
 1004695331@qq.com
 
