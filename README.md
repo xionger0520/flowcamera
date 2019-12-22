@@ -1,4 +1,11 @@
 # flowcamera
+
+[![](https://jitpack.io/v/xionger0520/flowcamera.svg)](https://jitpack.io/#xionger0520/flowcamera)
+
+仿微信拍照和拍小视频界面 使用最新的CameraX 相机操作api 提升稳定性和兼容性
+
+---清晰的分割线---
+
 之前项目有个拍照和拍小视频的需求 使用的是这位大佬的项目  非常感谢
 
 https://github.com/CJT2325/CameraView
@@ -12,7 +19,6 @@ https://github.com/CJT2325/CameraView
 
 <img src="https://github.com/xionger0520/flowcamera/blob/master/assets/mmp1.png" width="200"/>
 
-仿微信拍照和拍小视频界面 使用最新的CameraX 相机操作api 提升稳定性和兼容性
 ## 使用方法 
 ### project的build.gradle中添加仓库地址
 ```xml
@@ -26,7 +32,21 @@ allprojects {
 ### module的build.gradle中添加依赖
 ```xml
 
-implementation 'com.github.xionger0520:flowcamera:V1.0.0'
+dependencies {
+
+	implementation 'com.github.xionger0520:flowcamera:V1.0.2'
+
+}
+
+CameraX需要java8环境
+
+android {
+    ...
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+}
 	
 ```
 ### AndroidManifest.xml中添加权限
@@ -50,6 +70,20 @@ implementation 'com.github.xionger0520:flowcamera:V1.0.0'
 ```
 ### 开始使用
 ```xml
+Application中实现此接口
+public class App extends Application implements CameraXConfig.Provider {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+    }
+
+    @NonNull
+    @Override
+    public CameraXConfig getCameraXConfig() {
+        return Camera2Config.defaultConfig();
+    }
+}
+在fragment或者activity调用 Android6.0以上系统需要自行动态申请 存储 相机和麦克风权限
 val flowCamera = findViewById<FlowCameraView>(R.id.flowCamera)
         // 绑定生命周期 您就不用关心Camera的开启和关闭了 不绑定无法预览
         flowCamera.setBindToLifecycle(this)
