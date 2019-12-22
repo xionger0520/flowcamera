@@ -2,6 +2,10 @@
 
 [![](https://jitpack.io/v/xionger0520/flowcamera.svg)](https://jitpack.io/#xionger0520/flowcamera)
 
+仿微信拍照和拍小视频界面 使用最新的CameraX 相机操作api 提升稳定性和兼容性
+
+---清晰的分割线---
+
 之前项目有个拍照和拍小视频的需求 使用的是这位大佬的项目  非常感谢
 
 https://github.com/CJT2325/CameraView
@@ -15,7 +19,6 @@ https://github.com/CJT2325/CameraView
 
 <img src="https://github.com/xionger0520/flowcamera/blob/master/assets/mmp1.png" width="200"/>
 
-仿微信拍照和拍小视频界面 使用最新的CameraX 相机操作api 提升稳定性和兼容性
 ## 使用方法 
 ### project的build.gradle中添加仓库地址
 ```xml
