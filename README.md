@@ -29,7 +29,7 @@ allprojects {
 ### module的build.gradle中添加依赖
 ```xml
 
-implementation 'com.github.xionger0520:flowcamera:V1.0.0'
+implementation 'com.github.xionger0520:flowcamera:V1.0.2'
 	
 ```
 ### AndroidManifest.xml中添加权限
