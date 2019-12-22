@@ -1,4 +1,7 @@
 # flowcamera
+
+[![](https://jitpack.io/v/xionger0520/flowcamera.svg)](https://jitpack.io/#xionger0520/flowcamera)
+
 之前项目有个拍照和拍小视频的需求 使用的是这位大佬的项目  非常感谢
 
 https://github.com/CJT2325/CameraView
