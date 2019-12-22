@@ -53,6 +53,20 @@ implementation 'com.github.xionger0520:flowcamera:V1.0.2'
 ```
 ### 开始使用
 ```xml
+Application中实现此接口
+public class App extends Application implements CameraXConfig.Provider {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+    }
+
+    @NonNull
+    @Override
+    public CameraXConfig getCameraXConfig() {
+        return Camera2Config.defaultConfig();
+    }
+}
+在fragment或者activity调用 Android6.0以上系统需要自行动态申请 存储 相机和麦克风权限
 val flowCamera = findViewById<FlowCameraView>(R.id.flowCamera)
         // 绑定生命周期 您就不用关心Camera的开启和关闭了 不绑定无法预览
         flowCamera.setBindToLifecycle(this)
