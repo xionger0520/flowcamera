@@ -32,7 +32,21 @@ allprojects {
 ### module的build.gradle中添加依赖
 ```xml
 
-implementation 'com.github.xionger0520:flowcamera:V1.0.2'
+dependencies {
+
+	implementation 'com.github.xionger0520:flowcamera:V1.0.2'
+
+}
+
+CameraX需要java8环境
+
+android {
+    ...
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+}
 	
 ```
 ### AndroidManifest.xml中添加权限
