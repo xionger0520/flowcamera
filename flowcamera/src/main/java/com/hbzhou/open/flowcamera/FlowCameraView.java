@@ -118,13 +118,13 @@ public class FlowCameraView extends FrameLayout {
                 mFlashLamp.setVisibility(INVISIBLE);
                 mVideoView.setCaptureMode(CameraView.CaptureMode.IMAGE);
 
-                LogUtil.e("systimestamp222---"+System.currentTimeMillis());
+                //LogUtil.e("systimestamp222---"+System.currentTimeMillis());
                 //测试新版本 CameraView
                 mVideoView.takePicture(initTakePicPath(mContext), ContextCompat.getMainExecutor(mContext), new ImageCapture.OnImageSavedCallback() {
                     @Override
                     public void onImageSaved(@NonNull File file) {
 
-                        LogUtil.e("systimestamp333---"+System.currentTimeMillis());
+                        //LogUtil.e("systimestamp333---"+System.currentTimeMillis());
 
                         photoFile = file;
                         Glide.with(mContext)

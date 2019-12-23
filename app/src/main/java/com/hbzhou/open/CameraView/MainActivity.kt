@@ -1,7 +1,6 @@
 package com.hbzhou.open.CameraView
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.blankj.utilcode.util.ToastUtils
 import com.hbzhou.open.flowcamera.FlowCameraView

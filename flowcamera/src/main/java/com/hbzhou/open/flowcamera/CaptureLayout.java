@@ -302,12 +302,6 @@ public class CaptureLayout extends FrameLayout {
 
 
     public void startAlphaAnimation() {
-//        if (isFirst) {
-//            ObjectAnimator animator_txt_tip = ObjectAnimator.ofFloat(txt_tip, "alpha", 1f, 0f);
-//            animator_txt_tip.setDuration(500);
-//            animator_txt_tip.start();
-//            isFirst = false;
-//        }
         txt_tip.setVisibility(View.INVISIBLE);
     }
 
@@ -319,7 +313,6 @@ public class CaptureLayout extends FrameLayout {
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
                 txt_tip.setText("单击拍照，长按摄像");
-                txt_tip.setVisibility(View.VISIBLE);
                 txt_tip.setAlpha(1f);
             }
         });
