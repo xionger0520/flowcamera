@@ -1,4 +1,4 @@
-# flowcamera
+# FlowCamera
 
 [![](https://jitpack.io/v/xionger0520/flowcamera.svg)](https://jitpack.io/#xionger0520/flowcamera)
 
