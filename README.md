@@ -12,9 +12,8 @@ https://github.com/CJT2325/CameraView
 
 <img src="https://github.com/xionger0520/flowcamera/blob/master/assets/mmp2.jpg" width="200"/>
 
-大佬这个库因为使用的是系统相机操作的api 但是在国内大厂对相机的持续优化下... 有不少兼容性和稳定性问题 
-在AndroidQ系统下有不少bug 作者可能也由于太忙已经很久没更新了 
-Google也意识到了这个问题 于是CameraX就诞生了 
+大佬由于未知原因已经很久没更新了 这个库因为使用的是系统相机操作的api 但是在国内大厂对相机的持续优化下... 
+有不少兼容性和稳定性问题 在AndroidQ系统下就有不少bug Google也意识到了这个问题 于是CameraX就诞生了 
 目的就是为了提升相机api的易用性 稳定和兼容性 于是我就用CameraX重写了关于相机操作的代码
 此项目我会定期维护更新
 
