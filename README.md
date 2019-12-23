@@ -2,11 +2,13 @@
 
 [![](https://jitpack.io/v/xionger0520/flowcamera.svg)](https://jitpack.io/#xionger0520/flowcamera)
 
-仿微信拍照和拍小视频界面 使用最新的CameraX 相机操作api 提升稳定性和兼容性
+## 仿微信拍照和拍小视频界面 使用最新的CameraX 相机操作api 提升稳定性和兼容性
+## 适配Android Q存储权限 可以点击拍照长按拍摄小视频
+## 可切换闪光灯开启 自动和关闭模式 可自拍
 
----清晰的分割线---
+### ---清晰的分割线---
 
-之前项目有个拍照和拍小视频的需求 使用的是这位大佬的项目  非常感谢
+### 之前项目有个拍照和拍小视频的需求 使用的是这位大佬的项目  非常感谢
 
 https://github.com/CJT2325/CameraView
 
