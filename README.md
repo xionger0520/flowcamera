@@ -126,7 +126,7 @@ wechat: zhouhaibin8357
 
 1004695331@qq.com
 
-## 如果本开源项目解决了你的小问题  那么。。。
+## 如果本开源项目解决了你的小问题  大佬就打个赏呗
 
 <img src="https://github.com/xionger0520/flowcamera/blob/master/assets/alipayicon.jpg" width="200"/>
 
