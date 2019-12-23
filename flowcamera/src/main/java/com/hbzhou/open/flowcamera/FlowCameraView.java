@@ -148,47 +148,6 @@ public class FlowCameraView extends FrameLayout {
                         }
                     }
                 });
-
-//                mVideoView.takePicture(initTakePicPath(mContext), new ImageCapture.OnImageSavedListener() {
-//                    @Override
-//                    public void onImageSaved(@NonNull File file) {
-//                        photoFile = file;
-//                        Glide.with(mContext)
-//                                .load(file)
-//                                .listener(new RequestListener<Drawable>() {
-//                                    @Override
-//                                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-//                                        return false;
-//                                    }
-//
-//                                    @Override
-//                                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-//                                        mPhoto.setVisibility(View.VISIBLE);
-//                                        mCaptureLayout.startTypeBtnAnimator();
-//                                        return false;
-//                                    }
-//                                })
-//                                .into(mPhoto);
-//
-//                        // If the folder selected is an external media directory, this is unnecessary
-//                        // but otherwise other apps will not be able to access our images unless we
-//                        // scan them using [MediaScannerConnection]
-//                        String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf(".") + 1));
-//                        MediaScannerConnection.scanFile(
-//                                mContext, new String[]{file.getAbsolutePath()}, new String[]{mimeType}, null);
-//
-//                        //mCaptureLayout.startAlphaAnimation();
-//                        //mCaptureLayout.startTypeBtnAnimator();
-//                    }
-//
-//                    @Override
-//                    public void onError(@NonNull ImageCapture.ImageCaptureError imageCaptureError, @NonNull String message, @Nullable Throwable cause) {
-//                        Toast.makeText(mContext, message, Toast.LENGTH_LONG).show();
-//                        if (errorListener != null) {
-//                            errorListener.onError();
-//                        }
-//                    }
-//                });
             }
 
             @Override
@@ -246,55 +205,6 @@ public class FlowCameraView extends FrameLayout {
                         }
                     }
                 });
-
-//                mVideoView.startRecording(initStartRecordingPath(mContext), new VideoCapture.OnVideoSavedListener() {
-//                    @Override
-//                    public void onVideoSaved(@NonNull File file) {
-//                        videoFile = file;
-//                        if (recordTime < 1500 && videoFile.exists() && videoFile.delete()) {
-//                            return;
-//                        }
-//                        mVideoPlay.post(() -> {
-//                            mVideoPlay.setVisibility(View.VISIBLE);
-//                            mVideoPlay.setVideoPath(file.getAbsolutePath());
-//                            mVideoPlay.setOnPreparedListener(MediaPlayer::start);
-////                            try {
-////                                if (mMediaPlayer == null) {
-////                                    mMediaPlayer = new MediaPlayer();
-////                                } else {
-////                                    mMediaPlayer.reset();
-////                                }
-////                                mMediaPlayer.setDataSource(file.getAbsolutePath());
-////                                //mMediaPlayer.set
-////                                //mMediaPlayer.setSurface();
-////                                mMediaPlayer.setVideoScalingMode(MediaPlayer.VIDEO_SCALING_MODE_SCALE_TO_FIT);
-////                                mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-////                                mMediaPlayer.setOnPreparedListener(mp -> mMediaPlayer.start());
-////                                mMediaPlayer.setLooping(true);
-////                                mMediaPlayer.prepare();
-////                            } catch (IOException e) {
-////                                e.printStackTrace();
-////                            }
-//
-//                        });
-//
-//
-//                        // If the folder selected is an external media directory, this is unnecessary
-//                        // but otherwise other apps will not be able to access our images unless we
-//                        // scan them using [MediaScannerConnection]
-//                        String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf(".") + 1));
-//                        MediaScannerConnection.scanFile(
-//                                mContext, new String[]{file.getAbsolutePath()}, new String[]{mimeType}, null);
-//                    }
-//
-//                    @Override
-//                    public void onError(@NonNull VideoCapture.VideoCaptureError
-//                                                videoCaptureError, @NonNull String message, @Nullable Throwable cause) {
-//                        if (errorListener != null) {
-//                            errorListener.onError();
-//                        }
-//                    }
-//                });
             }
 
             @Override
