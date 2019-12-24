@@ -78,7 +78,6 @@ Application中实现此接口
 class MyApplication : Application(), CameraXConfig.Provider {
     override fun onCreate() {
         super.onCreate()
-        Utils.init(applicationContext)
     }
 
     override fun getCameraXConfig(): CameraXConfig {
