@@ -27,6 +27,7 @@ import androidx.lifecycle.LifecycleOwner;
 import com.bumptech.glide.Glide;
 import com.hbzhou.open.flowcamera.listener.ClickListener;
 import com.hbzhou.open.flowcamera.listener.FlowCameraListener;
+import com.hbzhou.open.flowcamera.listener.OnVideoPlayPrepareListener;
 import com.hbzhou.open.flowcamera.listener.TypeListener;
 import com.hbzhou.open.flowcamera.util.LogUtil;
 
@@ -163,14 +164,18 @@ public class FlowCameraView extends FrameLayout {
                             return;
                         }
                         mTextureView.setVisibility(View.VISIBLE);
-                        mVideoView.setVisibility(View.INVISIBLE);
+                        //mVideoView.setVisibility(View.INVISIBLE);
                         if (mTextureView.isAvailable()) {
-                            startVideoPlay(videoFile);
+                            startVideoPlay(videoFile, () ->
+                                    mVideoView.setVisibility(View.GONE)
+                            );
                         } else {
                             mTextureView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
                                 @Override
                                 public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
-                                    startVideoPlay(videoFile);
+                                    startVideoPlay(videoFile, () ->
+                                            mVideoView.setVisibility(View.GONE)
+                                    );
                                 }
 
                                 @Override
@@ -350,7 +355,7 @@ public class FlowCameraView extends FrameLayout {
      *
      * @param videoFile
      */
-    private void startVideoPlay(File videoFile) {
+    private void startVideoPlay(File videoFile, OnVideoPlayPrepareListener onVideoPlayPrepareListener) {
         try {
             if (mMediaPlayer == null) {
                 mMediaPlayer = new MediaPlayer();
@@ -366,6 +371,10 @@ public class FlowCameraView extends FrameLayout {
                 ViewGroup.LayoutParams layoutParams = mTextureView.getLayoutParams();
                 layoutParams.height = (int) (width1 / ratio);
                 mTextureView.setLayoutParams(layoutParams);
+
+                if (onVideoPlayPrepareListener != null) {
+                    onVideoPlayPrepareListener.onPrepared();
+                }
             });
             mMediaPlayer.prepareAsync();
         } catch (IOException e) {
