@@ -2,7 +2,7 @@
 
 [![](https://jitpack.io/v/xionger0520/flowcamera.svg)](https://jitpack.io/#xionger0520/flowcamera)
 
-## 仿微信拍照和拍小视频界面 使用最新的CameraX相机库 提升稳定性和兼容性
+## 仿微信拍照和拍小视频界面 使用最新的CameraX相机库
 ## 适配Android Q存储权限 可以点击拍照长按拍摄小视频
 ## 可切换闪光灯开启 自动和关闭模式 可自拍
 
