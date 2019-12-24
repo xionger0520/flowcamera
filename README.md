@@ -75,16 +75,14 @@ android {
 ### 开始使用
 ```xml
 Application中实现此接口
-public class App extends Application implements CameraXConfig.Provider {
-    @Override
-    public void onCreate() {
-        super.onCreate();
+class MyApplication : Application(), CameraXConfig.Provider {
+    override fun onCreate() {
+        super.onCreate()
+        Utils.init(applicationContext)
     }
 
-    @NonNull
-    @Override
-    public CameraXConfig getCameraXConfig() {
-        return Camera2Config.defaultConfig();
+    override fun getCameraXConfig(): CameraXConfig {
+        return Camera2Config.defaultConfig()
     }
 }
 在fragment或者activity调用 Android6.0以上系统需要自行动态申请 存储 相机和麦克风权限
