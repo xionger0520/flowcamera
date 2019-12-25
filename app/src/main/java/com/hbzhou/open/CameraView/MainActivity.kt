@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.blankj.utilcode.util.ToastUtils
 import com.hbzhou.open.flowcamera.FlowCameraView
 import com.hbzhou.open.flowcamera.listener.FlowCameraListener
+import com.hbzhou.open.flowcamera.util.LogUtil
 import java.io.File
 
 
@@ -25,10 +26,12 @@ class MainActivity : AppCompatActivity() {
                 ToastUtils.showLong(file.absolutePath)
                 finish()
             }
+
             // 操作拍照或录视频出错
             override fun onError(videoCaptureError: Int, message: String, cause: Throwable?) {
-
+                LogUtil.e(videoCaptureError.toString().plus("----").plus(message).plus("---").plus(cause.toString()))
             }
+
             // 拍照返回
             override fun captureSuccess(file: File) {
                 ToastUtils.showLong(file.absolutePath)

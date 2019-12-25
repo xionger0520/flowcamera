@@ -312,7 +312,6 @@ public class CaptureButton extends View {
         @Override
         public void onTick(long millisUntilFinished) {
             updateProgress(millisUntilFinished);
-            LogUtil.e("onTick---"+millisUntilFinished+"-----"+recorded_time);
         }
 
         @Override

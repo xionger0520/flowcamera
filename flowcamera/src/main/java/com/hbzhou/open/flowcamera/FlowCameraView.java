@@ -118,7 +118,6 @@ public class FlowCameraView extends FrameLayout {
                 mSwitchCamera.setVisibility(INVISIBLE);
                 mFlashLamp.setVisibility(INVISIBLE);
                 mVideoView.setCaptureMode(CameraView.CaptureMode.IMAGE);
-
                 //LogUtil.e("systimestamp222---"+System.currentTimeMillis());
                 //测试新版本 CameraView
                 mVideoView.takePicture(initTakePicPath(mContext), ContextCompat.getMainExecutor(mContext), new ImageCapture.OnImageSavedCallback() {
@@ -291,6 +290,18 @@ public class FlowCameraView extends FrameLayout {
         mVideoView.bindToLifecycle(lifecycleOwner);
         lifecycleOwner.getLifecycle().addObserver((LifecycleEventObserver) (source, event) -> {
             LogUtil.i("event---", event.toString());
+//            if (event == Lifecycle.Event.ON_STOP) {
+//                mTextureView.destroyDrawingCache();
+//                mVideoView.removeAllViews();
+//                mVideoView.destroyDrawingCache();
+//                mCaptureLayout.removeAllViews();
+//                mCaptureLayout.destroyDrawingCache();
+//                this.removeAllViews();
+//                this.destroyDrawingCache();
+//                mCaptureLayout = null;
+//                mVideoView = null;
+//                mTextureView = null;
+//            }
         });
     }
 
