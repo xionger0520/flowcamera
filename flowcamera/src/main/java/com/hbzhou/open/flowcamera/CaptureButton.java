@@ -151,7 +151,7 @@ public class CaptureButton extends View {
                 event_Y = event.getY();     //记录Y值
                 state = STATE_PRESS;        //修改当前状态为点击按下
 
-                LogUtil.e("systimestamp111---"+System.currentTimeMillis());
+                //LogUtil.e("systimestamp111---"+System.currentTimeMillis());
 
                 //判断按钮状态是否为可录制状态
                 if ((button_state == BUTTON_STATE_ONLY_RECORDER || button_state == BUTTON_STATE_BOTH))
