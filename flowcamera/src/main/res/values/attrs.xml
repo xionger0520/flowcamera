@@ -23,4 +23,13 @@
         <attr name="iconRight"/>
         <attr name="duration_max"/>
     </declare-styleable>
+
+    <declare-styleable name="CustomCameraView">
+        <attr name="iconSize"/>
+        <attr name="iconMargin"/>
+        <attr name="iconSrc"/>
+        <attr name="iconLeft"/>
+        <attr name="iconRight"/>
+        <attr name="duration_max"/>
+    </declare-styleable>
 </resources>

@@ -12,7 +12,6 @@ import android.os.CountDownTimer;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.hbzhou.open.flowcamera.util.CheckPermission;
 import com.hbzhou.open.flowcamera.util.LogUtil;
 
 import static com.hbzhou.open.flowcamera.JCameraView.BUTTON_STATE_BOTH;
@@ -190,7 +189,7 @@ public class CaptureButton extends View {
                 break;
             // ---CodeReview---当内外圆动画未结束时已经是长按状态 但还没有置为STATE_RECORDERING时 应该也要结束录制  此处是一个bug
             case STATE_LONG_PRESS:
-            //当前是长按状态
+                //当前是长按状态
             case STATE_RECORDERING:
                 timer.cancel(); //停止计时器
                 recordEnd();    //录制结束
@@ -326,14 +325,6 @@ public class CaptureButton extends View {
         @Override
         public void run() {
             state = STATE_LONG_PRESS;   //如果按下后经过500毫秒则会修改当前状态为长按状态
-            //没有录制权限
-            if (CheckPermission.getRecordState() != CheckPermission.STATE_SUCCESS) {
-                state = STATE_IDLE;
-                if (captureLisenter != null) {
-                    captureLisenter.recordError();
-                    return;
-                }
-            }
             //启动按钮动画，外圆变大，内圆缩小
             startRecordAnimation(
                     button_outside_radius,

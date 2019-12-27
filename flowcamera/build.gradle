@@ -42,4 +42,6 @@ dependencies {
     kapt 'com.github.bumptech.glide:compiler:4.10.0'
     // PhotoView
     api 'com.github.chrisbanes:PhotoView:2.3.0'
+    // custom camera view
+    api 'com.otaliastudios:cameraview:2.5.0'
 }

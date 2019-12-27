@@ -3,6 +3,7 @@ package com.hbzhou.open.CameraView
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.blankj.utilcode.util.ToastUtils
+import com.hbzhou.open.flowcamera.CustomCameraView
 import com.hbzhou.open.flowcamera.FlowCameraView
 import com.hbzhou.open.flowcamera.listener.FlowCameraListener
 import com.hbzhou.open.flowcamera.util.LogUtil
@@ -14,7 +15,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val flowCamera = findViewById<FlowCameraView>(R.id.flowCamera)
+        val flowCamera = findViewById<CustomCameraView>(R.id.flowCamera)
         // 绑定生命周期 您就不用关心Camera的开启和关闭了 不绑定无法预览
         flowCamera.setBindToLifecycle(this)
         // 设置最大可拍摄小视频时长

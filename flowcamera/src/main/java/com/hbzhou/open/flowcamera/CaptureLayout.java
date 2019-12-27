@@ -172,7 +172,6 @@ public class CaptureLayout extends FrameLayout {
                 if (captureLisenter != null) {
                     captureLisenter.recordEnd(time);
                 }
-                startTypeBtnAnimator();
             }
 
             @Override
