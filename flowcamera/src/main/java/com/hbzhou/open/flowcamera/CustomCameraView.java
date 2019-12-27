@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,9 +32,10 @@ import com.otaliastudios.cameraview.CameraListener;
 import com.otaliastudios.cameraview.CameraView;
 import com.otaliastudios.cameraview.PictureResult;
 import com.otaliastudios.cameraview.VideoResult;
+import com.otaliastudios.cameraview.controls.Audio;
 import com.otaliastudios.cameraview.controls.Engine;
-import com.otaliastudios.cameraview.controls.Facing;
 import com.otaliastudios.cameraview.controls.Flash;
+import com.otaliastudios.cameraview.controls.Hdr;
 import com.otaliastudios.cameraview.controls.Mode;
 
 import java.io.File;
@@ -120,6 +120,8 @@ public class CustomCameraView extends FrameLayout {
         mSwitchCamera.setOnClickListener(v ->
                 mCameraView.toggleFacing()
         );
+        mCameraView.setHdr(Hdr.ON);
+        mCameraView.setAudio(Audio.ON);
         // 拍照录像回调
         mCameraView.addCameraListener(new CameraListener() {
             @Override
@@ -128,7 +130,7 @@ public class CustomCameraView extends FrameLayout {
                 if (flowCameraListener != null) {
                     flowCameraListener.onError(0, Objects.requireNonNull(exception.getMessage()), null);
                 }
-                LogUtil.e("CameraException---" + exception.getMessage());
+                //LogUtil.e("CameraException---" + exception.getMessage());
             }
 
             @Override
