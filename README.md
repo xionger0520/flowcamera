@@ -38,7 +38,7 @@ allprojects {
 
 dependencies {
 
-	implementation 'com.github.xionger0520:flowcamera:V1.0.4'
+	implementation 'com.github.xionger0520:flowcamera:V1.0.5'
 
 }
 
@@ -69,6 +69,15 @@ android {
   
 ### 布局文件中添加
 ```xml
+
+鉴于当前CameraX是alpha版本  测试发现在小米手机上运行有不少兼容性问题 
+目前建议先使用CustomCameraView
+<com.hbzhou.open.flowcamera.CustomCameraView
+        android:id="@+id/customCamera"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+待CameraX库稳定后可使用以下flow版本
 <com.hbzhou.open.flowcamera.FlowCameraView
         android:id="@+id/flowCamera"
         android:layout_width="match_parent"
@@ -78,6 +87,8 @@ android {
 ### 开始使用
 ```xml
 Application中实现此接口
+
+若使用CustomCameraView 不需要此配置
 class MyApplication : Application(), CameraXConfig.Provider {
     override fun onCreate() {
         super.onCreate()
@@ -88,6 +99,9 @@ class MyApplication : Application(), CameraXConfig.Provider {
     }
 }
 在fragment或者activity调用 Android6.0以上系统需要自行动态申请 存储 相机和麦克风权限
+
+若使用CustomCameraView注意类型改变 其他初始化操作不变
+
 val flowCamera = findViewById<FlowCameraView>(R.id.flowCamera)
         // 绑定生命周期 您就不用关心Camera的开启和关闭了 不绑定无法预览
         flowCamera.setBindToLifecycle(this)
