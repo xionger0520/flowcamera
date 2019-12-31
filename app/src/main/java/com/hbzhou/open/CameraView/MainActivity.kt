@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.blankj.utilcode.util.ToastUtils
 import com.hbzhou.open.flowcamera.CustomCameraView
-import com.hbzhou.open.flowcamera.FlowCameraView
 import com.hbzhou.open.flowcamera.listener.FlowCameraListener
 import com.hbzhou.open.flowcamera.util.LogUtil
 import java.io.File
@@ -30,7 +29,11 @@ class MainActivity : AppCompatActivity() {
 
             // 操作拍照或录视频出错
             override fun onError(videoCaptureError: Int, message: String, cause: Throwable?) {
-                LogUtil.e(videoCaptureError.toString().plus("----").plus(message).plus("---").plus(cause.toString()))
+                LogUtil.e(
+                    videoCaptureError.toString().plus("----").plus(message).plus("---").plus(
+                        cause.toString()
+                    )
+                )
             }
 
             // 拍照返回
