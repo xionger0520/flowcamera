@@ -37,6 +37,9 @@ import com.otaliastudios.cameraview.controls.Engine;
 import com.otaliastudios.cameraview.controls.Flash;
 import com.otaliastudios.cameraview.controls.Hdr;
 import com.otaliastudios.cameraview.controls.Mode;
+import com.otaliastudios.cameraview.controls.WhiteBalance;
+import com.otaliastudios.cameraview.filter.Filter;
+import com.otaliastudios.cameraview.filters.FillLightFilter;
 
 import java.io.File;
 import java.io.IOException;
@@ -326,6 +329,23 @@ public class CustomCameraView extends FrameLayout {
         mCaptureLayout.setDuration(maxDurationTime * 1000);
     }
 
+    /**
+     * 设置是否支持HDR
+     * @param hdr
+     */
+    public void setHdrEnable(Hdr hdr) {
+        mCameraView.setHdr(hdr);
+    }
+
+    /**
+     * 设置白平衡
+     *
+     * @param whiteBalance
+     */
+    public void setWhiteBalance(WhiteBalance whiteBalance) {
+        mCameraView.setWhiteBalance(whiteBalance);
+    }
+    
     /**
      * 关闭相机界面按钮
      *
