@@ -100,7 +100,7 @@ class MyApplication : Application(), CameraXConfig.Provider {
 }
 在fragment或者activity调用 Android6.0以上系统需要自行动态申请 存储 相机和麦克风权限
 
-若使用CustomCameraView注意类型改变 其他初始化操作不变
+使用CustomCameraView按照如下步骤配置 
 
 val flowCamera = findViewById<CustomCameraView>(R.id.flowCamera)
 	// 绑定生命周期 您就不用关心Camera的开启和关闭了 不绑定无法预览
