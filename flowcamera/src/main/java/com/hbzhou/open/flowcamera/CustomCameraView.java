@@ -57,7 +57,7 @@ public class CustomCameraView extends FrameLayout {
     private CameraView mCameraView;
     private ImageView mPhoto;
     private ImageView mSwitchCamera;
-//    private ImageView mFlashLamp;
+    //    private ImageView mFlashLamp;
     private CaptureLayout mCaptureLayout;
     private MediaPlayer mMediaPlayer;
     private TextureView mTextureView;
@@ -224,9 +224,8 @@ public class CustomCameraView extends FrameLayout {
                 mCameraView.setMode(Mode.VIDEO);
                 if (mCameraView.isTakingVideo()) {
                     mCameraView.stopVideo();
-                } else {
-                    mCameraView.takeVideoSnapshot(initStartRecordingPath(mContext));
                 }
+                mCameraView.takeVideoSnapshot(initStartRecordingPath(mContext));
             }
 
             @Override
@@ -331,6 +330,7 @@ public class CustomCameraView extends FrameLayout {
 
     /**
      * 设置是否支持HDR
+     *
      * @param hdr
      */
     public void setHdrEnable(Hdr hdr) {
@@ -345,7 +345,7 @@ public class CustomCameraView extends FrameLayout {
     public void setWhiteBalance(WhiteBalance whiteBalance) {
         mCameraView.setWhiteBalance(whiteBalance);
     }
-    
+
     /**
      * 关闭相机界面按钮
      *
