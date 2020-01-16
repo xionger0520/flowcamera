@@ -6,6 +6,8 @@ import com.blankj.utilcode.util.ToastUtils
 import com.hbzhou.open.flowcamera.CustomCameraView
 import com.hbzhou.open.flowcamera.listener.FlowCameraListener
 import com.hbzhou.open.flowcamera.util.LogUtil
+import com.otaliastudios.cameraview.controls.Hdr
+import com.otaliastudios.cameraview.controls.WhiteBalance
 import java.io.File
 
 
@@ -15,6 +17,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val flowCamera = findViewById<CustomCameraView>(R.id.flowCamera)
+        // 设置白平衡模式
+        flowCamera.setWhiteBalance(WhiteBalance.AUTO)
+        // 开启HDR
+        flowCamera.setHdrEnable(Hdr.ON)
         // 绑定生命周期 您就不用关心Camera的开启和关闭了 不绑定无法预览
         flowCamera.setBindToLifecycle(this)
         // 设置最大可拍摄小视频时长
