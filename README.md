@@ -38,7 +38,7 @@ allprojects {
 
 dependencies {
 
-	implementation 'com.github.xionger0520:flowcamera:V1.0.7'
+	implementation 'com.github.xionger0520:flowcamera:V1.0.8'
 
 }
 
