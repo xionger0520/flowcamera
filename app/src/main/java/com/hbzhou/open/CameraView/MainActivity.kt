@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.blankj.utilcode.util.ToastUtils
 import com.hbzhou.open.flowcamera.CustomCameraView
+import com.hbzhou.open.flowcamera.FlowCameraView
 import com.hbzhou.open.flowcamera.listener.FlowCameraListener
 import com.hbzhou.open.flowcamera.util.LogUtil
 import com.otaliastudios.cameraview.controls.Hdr

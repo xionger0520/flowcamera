@@ -14,10 +14,12 @@ import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.camera.core.ImageCapture;
+import androidx.camera.core.ImageCaptureException;
 import androidx.camera.core.VideoCapture;
 import androidx.camera.view.CameraView;
 import androidx.core.content.ContextCompat;
@@ -33,6 +35,7 @@ import com.hbzhou.open.flowcamera.util.LogUtil;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * author hbzhou
@@ -118,17 +121,18 @@ public class FlowCameraView extends FrameLayout {
                 mSwitchCamera.setVisibility(INVISIBLE);
                 mFlashLamp.setVisibility(INVISIBLE);
                 mVideoView.setCaptureMode(CameraView.CaptureMode.IMAGE);
-                //LogUtil.e("systimestamp222---"+System.currentTimeMillis());
+
                 //测试新版本 CameraView
-                mVideoView.takePicture(initTakePicPath(mContext), ContextCompat.getMainExecutor(mContext), new ImageCapture.OnImageSavedCallback() {
+                mVideoView.takePicture(photoFile = initTakePicPath(mContext), ContextCompat.getMainExecutor(mContext), new ImageCapture.OnImageSavedCallback() {
                     @Override
-                    public void onImageSaved(@NonNull File file) {
+                    public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
+                        if (!photoFile.exists()) {
+                            Toast.makeText(mContext, "图片保存出错!", Toast.LENGTH_LONG).show();
+                            return;
+                        }
 
-                        //LogUtil.e("systimestamp333---"+System.currentTimeMillis());
-
-                        photoFile = file;
                         Glide.with(mContext)
-                                .load(file)
+                                .load(photoFile)
                                 .into(mPhoto);
                         mPhoto.setVisibility(View.VISIBLE);
                         mCaptureLayout.startTypeBtnAnimator();
@@ -136,15 +140,15 @@ public class FlowCameraView extends FrameLayout {
                         // If the folder selected is an external media directory, this is unnecessary
                         // but otherwise other apps will not be able to access our images unless we
                         // scan them using [MediaScannerConnection]
-                        String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf(".") + 1));
+                        String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(photoFile.getAbsolutePath().substring(photoFile.getAbsolutePath().lastIndexOf(".") + 1));
                         MediaScannerConnection.scanFile(
-                                mContext, new String[]{file.getAbsolutePath()}, new String[]{mimeType}, null);
+                                mContext, new String[]{photoFile.getAbsolutePath()}, new String[]{mimeType}, null);
                     }
 
                     @Override
-                    public void onError(int imageCaptureError, @NonNull String message, @Nullable Throwable cause) {
+                    public void onError(@NonNull ImageCaptureException exception) {
                         if (flowCameraListener != null) {
-                            flowCameraListener.onError(imageCaptureError, message, cause);
+                            flowCameraListener.onError(exception.getImageCaptureError(), Objects.requireNonNull(exception.getMessage()), exception.getCause());
                         }
                     }
                 });
@@ -163,7 +167,7 @@ public class FlowCameraView extends FrameLayout {
                             return;
                         }
                         mTextureView.setVisibility(View.VISIBLE);
-                        //mVideoView.setVisibility(View.INVISIBLE);
+                        mCaptureLayout.startTypeBtnAnimator();
                         if (mTextureView.isAvailable()) {
                             startVideoPlay(videoFile, () ->
                                     mVideoView.setVisibility(View.GONE)
