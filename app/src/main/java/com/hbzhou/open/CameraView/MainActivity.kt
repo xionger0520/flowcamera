@@ -17,13 +17,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val flowCamera = findViewById<CustomCameraView>(R.id.flowCamera)
+        val flowCamera = findViewById<FlowCameraView>(R.id.flowCamera)
         // 绑定生命周期 您就不用关心Camera的开启和关闭了 不绑定无法预览
         flowCamera.setBindToLifecycle(this)
         // 设置白平衡模式
-        flowCamera.setWhiteBalance(WhiteBalance.AUTO)
-        // 开启HDR
-        flowCamera.setHdrEnable(Hdr.ON)
+//        flowCamera.setWhiteBalance(WhiteBalance.AUTO)
+//        // 开启HDR
+//        flowCamera.setHdrEnable(Hdr.ON)
         // 设置最大可拍摄小视频时长
         flowCamera.setRecordVideoMaxTime(10)
         // 设置拍照或拍视频回调监听

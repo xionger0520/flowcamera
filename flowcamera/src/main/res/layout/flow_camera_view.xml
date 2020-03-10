@@ -11,7 +11,7 @@
         <androidx.camera.view.CameraView
             android:id="@+id/video_preview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent" />
 
         <com.github.chrisbanes.photoview.PhotoView
             android:id="@+id/image_photo"
