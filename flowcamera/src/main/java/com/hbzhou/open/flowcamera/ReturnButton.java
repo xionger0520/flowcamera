@@ -8,12 +8,8 @@ import android.graphics.Path;
 import android.view.View;
 
 /**
- * =====================================
- * 作    者: 陈嘉桐 445263848@qq.com
- * 版    本：1.0.4
- * 创建日期：2017/4/26
- * 描    述：向下箭头的退出按钮
- * =====================================
+ * author hbzhou
+ * date 2019/12/13 10:49
  */
 public class ReturnButton extends View {
 

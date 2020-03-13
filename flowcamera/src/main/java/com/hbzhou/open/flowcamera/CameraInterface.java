@@ -41,12 +41,8 @@ import java.util.List;
 import static android.graphics.Bitmap.createBitmap;
 
 /**
- * =====================================
- * 作    者: 陈嘉桐
- * 版    本：1.1.4
- * 创建日期：2017/4/25
- * 描    述：camera操作单例
- * =====================================
+ * author hbzhou
+ * date 2019/12/13 10:49
  */
 @SuppressWarnings("deprecation")
 public class CameraInterface implements Camera.PreviewCallback {

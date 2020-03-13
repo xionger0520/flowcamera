@@ -8,12 +8,8 @@ import com.hbzhou.open.flowcamera.JCameraView;
 import com.hbzhou.open.flowcamera.util.LogUtil;
 
 /**
- * =====================================
- * 作    者: 陈嘉桐
- * 版    本：1.1.4
- * 创建日期：2017/9/8
- * 描    述：空闲状态
- * =====================================
+ * author hbzhou
+ * date 2019/12/13 10:49
  */
 class PreviewState implements State {
     public static final String TAG = "PreviewState";

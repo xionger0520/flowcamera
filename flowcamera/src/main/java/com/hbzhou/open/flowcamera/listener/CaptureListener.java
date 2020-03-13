@@ -1,8 +1,8 @@
 package com.hbzhou.open.flowcamera.listener;
 
 /**
- * create by CJT2325
- * 445263848@qq.com.
+ * author hbzhou
+ * date 2019/12/13 10:49
  */
 
 public interface CaptureListener {

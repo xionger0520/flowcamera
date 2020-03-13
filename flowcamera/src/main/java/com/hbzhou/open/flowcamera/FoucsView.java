@@ -11,12 +11,8 @@ import androidx.annotation.Nullable;
 import com.hbzhou.open.flowcamera.util.ScreenUtils;
 
 /**
- * =====================================
- * 作    者: 陈嘉桐
- * 版    本：1.1.4
- * 创建日期：2017/4/26
- * 描    述：对焦框
- * =====================================
+ * author hbzhou
+ * date 2019/12/13 10:49
  */
 public class FoucsView extends View {
     private int size;

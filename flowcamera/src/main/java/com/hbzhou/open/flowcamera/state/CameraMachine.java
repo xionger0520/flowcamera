@@ -8,12 +8,8 @@ import com.hbzhou.open.flowcamera.CameraInterface;
 import com.hbzhou.open.flowcamera.view.CameraView;
 
 /**
- * =====================================
- * 作    者: 陈嘉桐
- * 版    本：1.1.4
- * 创建日期：2017/9/8
- * 描    述：
- * =====================================
+ * author hbzhou
+ * date 2019/12/13 10:49
  */
 public class CameraMachine implements State {
 

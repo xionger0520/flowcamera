@@ -3,12 +3,8 @@ package com.hbzhou.open.flowcamera.util;
 import android.os.Build;
 
 /**
- * =====================================
- * 作    者: 陈嘉桐
- * 版    本：1.1.4
- * 创建日期：2017/6/9
- * 描    述：
- * =====================================
+ * author hbzhou
+ * date 2019/12/13 10:49
  */
 public class DeviceUtil {
 

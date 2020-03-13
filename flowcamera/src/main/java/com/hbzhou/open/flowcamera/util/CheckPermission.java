@@ -7,12 +7,8 @@ import android.media.MediaRecorder;
 import android.util.Log;
 
 /**
- * =====================================
- * 作    者: 陈嘉桐
- * 版    本：1.1.4
- * 创建日期：2017/6/8
- * 描    述：
- * =====================================
+ * author hbzhou
+ * date 2019/12/13 10:49
  */
 public class CheckPermission {
     public static final int STATE_RECORDING = -1;
