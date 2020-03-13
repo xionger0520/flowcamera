@@ -40,7 +40,7 @@ allprojects {
 
 dependencies {
 
-	implementation 'com.github.xionger0520:flowcamera:V1.0.8'
+	implementation 'com.github.xionger0520:flowcamera:V1.1.0'
 
 }
 
@@ -109,6 +109,9 @@ val flowCamera = findViewById<CustomCameraView>(R.id.flowCamera)
         flowCamera.setBindToLifecycle(this)
         // 设置白平衡模式
         flowCamera.setWhiteBalance(WhiteBalance.AUTO)
+	// 设置只支持单独拍照拍视频还是都支持
+        // BUTTON_STATE_ONLY_CAPTURE  BUTTON_STATE_ONLY_RECORDER  BUTTON_STATE_BOTH
+        flowCamera.setCaptureMode(BUTTON_STATE_BOTH)
         // 开启HDR
         flowCamera.setHdrEnable(Hdr.ON)
         // 设置最大可拍摄小视频时长
