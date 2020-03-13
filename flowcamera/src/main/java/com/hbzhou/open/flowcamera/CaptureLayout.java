@@ -19,6 +19,10 @@ import com.hbzhou.open.flowcamera.listener.ClickListener;
 import com.hbzhou.open.flowcamera.listener.ReturnListener;
 import com.hbzhou.open.flowcamera.listener.TypeListener;
 
+import static com.hbzhou.open.flowcamera.FlowCameraView.BUTTON_STATE_BOTH;
+import static com.hbzhou.open.flowcamera.FlowCameraView.BUTTON_STATE_ONLY_CAPTURE;
+import static com.hbzhou.open.flowcamera.FlowCameraView.BUTTON_STATE_ONLY_RECORDER;
+
 
 /**
  * =====================================
@@ -56,6 +60,8 @@ public class CaptureLayout extends FrameLayout {
     private ImageView iv_custom_left;            //左边自定义按钮
     private ImageView iv_custom_right;            //右边自定义按钮
     private TextView txt_tip;               //提示文本
+
+    private String textTip;
 
     private int layout_width;
     private int layout_height;
@@ -252,7 +258,7 @@ public class CaptureLayout extends FrameLayout {
         LayoutParams txt_param = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         txt_param.gravity = Gravity.CENTER_HORIZONTAL;
         txt_param.setMargins(0, 0, 0, 0);
-        txt_tip.setText("单击拍照，长按摄像");
+        switchTextTip(btn_capture.getButtonState());
         txt_tip.setTextColor(0xFFFFFFFF);
         txt_tip.setGravity(Gravity.CENTER);
         txt_tip.setLayoutParams(txt_param);
@@ -275,7 +281,7 @@ public class CaptureLayout extends FrameLayout {
         btn_cancel.setVisibility(GONE);
         btn_confirm.setVisibility(GONE);
         btn_capture.setVisibility(VISIBLE);
-        txt_tip.setText("单击拍照，长按摄像");
+        switchTextTip(btn_capture.getButtonState());
         txt_tip.setVisibility(View.VISIBLE);
         if (this.iconLeft != 0)
             iv_custom_left.setVisibility(VISIBLE);
@@ -284,7 +290,6 @@ public class CaptureLayout extends FrameLayout {
         if (this.iconRight != 0)
             iv_custom_right.setVisibility(VISIBLE);
     }
-
 
     public void startAlphaAnimation() {
         txt_tip.setVisibility(View.INVISIBLE);
@@ -297,7 +302,7 @@ public class CaptureLayout extends FrameLayout {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
-                txt_tip.setText("单击拍照，长按摄像");
+                switchTextTip(btn_capture.getButtonState());
                 txt_tip.setAlpha(1f);
             }
         });
@@ -311,14 +316,29 @@ public class CaptureLayout extends FrameLayout {
 
     public void setButtonFeatures(int state) {
         btn_capture.setButtonFeatures(state);
+        switchTextTip(state);
+    }
+
+    private void switchTextTip(int state) {
+        switch (state) {
+            case BUTTON_STATE_BOTH:
+                textTip = "单击拍照，长按摄像";
+                txt_tip.setText(textTip);
+                break;
+            case BUTTON_STATE_ONLY_CAPTURE:
+                textTip = "单击拍照";
+                txt_tip.setText(textTip);
+                break;
+            case BUTTON_STATE_ONLY_RECORDER:
+                textTip = "长按摄像";
+                txt_tip.setText(textTip);
+                break;
+        }
     }
 
     public void setTip(String tip) {
-        txt_tip.setText(tip);
-    }
-
-    public void showTip() {
-        txt_tip.setVisibility(VISIBLE);
+        textTip = tip;
+        txt_tip.setText(textTip);
     }
 
     public void setIconSrc(int iconLeft, int iconRight) {

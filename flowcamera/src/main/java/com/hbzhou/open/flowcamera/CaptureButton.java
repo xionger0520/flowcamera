@@ -95,7 +95,7 @@ public class CaptureButton extends View {
         longPressRunnable = new LongPressRunnable();
 
         state = STATE_IDLE;                //初始化为空闲状态
-        button_state = BUTTON_STATE_BOTH;  //初始化按钮为可录制可拍照
+        button_state = BUTTON_STATE_ONLY_CAPTURE;  //初始化按钮为可录制可拍照
         LogUtil.i("CaptureButtom start");
         duration = 10 * 1000;              //默认最长录制时间为10s
         LogUtil.i("CaptureButtom end");
@@ -358,6 +358,11 @@ public class CaptureButton extends View {
     //设置按钮功能（拍照和录像）
     public void setButtonFeatures(int state) {
         this.button_state = state;
+    }
+
+    // 获取当前按钮支持状态
+    public int getButtonState() {
+        return button_state;
     }
 
     //是否空闲状态

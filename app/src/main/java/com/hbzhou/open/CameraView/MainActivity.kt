@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.blankj.utilcode.util.ToastUtils
 import com.hbzhou.open.flowcamera.CustomCameraView
-import com.hbzhou.open.flowcamera.FlowCameraView
+import com.hbzhou.open.flowcamera.CustomCameraView.BUTTON_STATE_BOTH
 import com.hbzhou.open.flowcamera.listener.FlowCameraListener
 import com.hbzhou.open.flowcamera.util.LogUtil
 import com.otaliastudios.cameraview.controls.Hdr
@@ -22,9 +22,12 @@ class MainActivity : AppCompatActivity() {
         flowCamera.setBindToLifecycle(this)
         // 设置白平衡模式
         flowCamera.setWhiteBalance(WhiteBalance.AUTO)
+        // 设置只支持单独拍照拍视频还是都支持
+        // BUTTON_STATE_ONLY_CAPTURE  BUTTON_STATE_ONLY_RECORDER  BUTTON_STATE_BOTH
+        flowCamera.setCaptureMode(BUTTON_STATE_BOTH)
         // 开启HDR
         flowCamera.setHdrEnable(Hdr.ON)
-        // 设置最大可拍摄小视频时长
+        // 设置最大可拍摄小视频时长 S
         flowCamera.setRecordVideoMaxTime(10)
         // 设置拍照或拍视频回调监听
         flowCamera.setFlowCameraListener(object : FlowCameraListener {

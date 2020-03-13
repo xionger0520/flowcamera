@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:visibility="gone"
-            android:src="@drawable/ic_flash_on" />
+            android:src="@drawable/ic_flash_off" />
 
         <ImageView
             android:id="@+id/image_switch"

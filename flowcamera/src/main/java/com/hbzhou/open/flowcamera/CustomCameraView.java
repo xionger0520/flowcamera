@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,12 +35,9 @@ import com.otaliastudios.cameraview.PictureResult;
 import com.otaliastudios.cameraview.VideoResult;
 import com.otaliastudios.cameraview.controls.Audio;
 import com.otaliastudios.cameraview.controls.Engine;
-import com.otaliastudios.cameraview.controls.Flash;
 import com.otaliastudios.cameraview.controls.Hdr;
 import com.otaliastudios.cameraview.controls.Mode;
 import com.otaliastudios.cameraview.controls.WhiteBalance;
-import com.otaliastudios.cameraview.filter.Filter;
-import com.otaliastudios.cameraview.filters.FillLightFilter;
 
 import java.io.File;
 import java.io.IOException;
@@ -57,7 +55,7 @@ public class CustomCameraView extends FrameLayout {
     private CameraView mCameraView;
     private ImageView mPhoto;
     private ImageView mSwitchCamera;
-    //    private ImageView mFlashLamp;
+    //private ImageView mFlashLamp;
     private CaptureLayout mCaptureLayout;
     private MediaPlayer mMediaPlayer;
     private TextureView mTextureView;
@@ -67,6 +65,11 @@ public class CustomCameraView extends FrameLayout {
     private static final int TYPE_FLASH_ON = 0x022;
     private static final int TYPE_FLASH_OFF = 0x023;
     private int type_flash = TYPE_FLASH_OFF;
+
+    // 选择拍照 拍视频 或者都有
+    public static final int BUTTON_STATE_ONLY_CAPTURE = 0x101;      //只能拍照
+    public static final int BUTTON_STATE_ONLY_RECORDER = 0x102;     //只能录像
+    public static final int BUTTON_STATE_BOTH = 0x103;
     //回调监听
     private FlowCameraListener flowCameraListener;
     private ClickListener leftClickListener;
@@ -125,6 +128,7 @@ public class CustomCameraView extends FrameLayout {
         );
         mCameraView.setHdr(Hdr.ON);
         mCameraView.setAudio(Audio.ON);
+        //mCameraView.setPreview(Preview.TEXTURE);
         // 拍照录像回调
         mCameraView.addCameraListener(new CameraListener() {
             @Override
@@ -133,7 +137,6 @@ public class CustomCameraView extends FrameLayout {
                 if (flowCameraListener != null) {
                     flowCameraListener.onError(0, Objects.requireNonNull(exception.getMessage()), null);
                 }
-                //LogUtil.e("CameraException---" + exception.getMessage());
             }
 
             @Override
@@ -141,6 +144,7 @@ public class CustomCameraView extends FrameLayout {
                 super.onPictureTaken(result);
                 result.toFile(initTakePicPath(mContext), file -> {
                     if (file == null || !file.exists()) {
+                        Toast.makeText(mContext, "文件不存在!", Toast.LENGTH_LONG).show();
                         return;
                     }
                     photoFile = file;
@@ -162,8 +166,10 @@ public class CustomCameraView extends FrameLayout {
             @Override
             public void onVideoTaken(@NonNull VideoResult result) {
                 super.onVideoTaken(result);
+                LogUtil.e("onVideoTaken---");
                 videoFile = result.getFile();
                 if (!videoFile.exists() || (recordTime < 1500 && videoFile.exists() && videoFile.delete())) {
+                    LogUtil.e("onVideoNotExists---" + recordTime);
                     return;
                 }
                 mCaptureLayout.startTypeBtnAnimator();
@@ -207,50 +213,51 @@ public class CustomCameraView extends FrameLayout {
             }
         });
         mCameraView.setEngine(Engine.CAMERA2);
+        // 初始化缩放手势
+        // mCameraView.mapGesture(Gesture.PINCH, GestureAction.ZOOM);
         //拍照 录像
         mCaptureLayout.setCaptureLisenter(new CaptureListener() {
             @Override
             public void takePictures() {
                 mSwitchCamera.setVisibility(INVISIBLE);
-//                mFlashLamp.setVisibility(INVISIBLE);
+                //mFlashLamp.setVisibility(INVISIBLE);
                 mCameraView.setMode(Mode.PICTURE);
                 mCameraView.takePictureSnapshot();
+                // mCameraView.postDelayed(() -> mCameraView.takePicture(), 100);
             }
 
             @Override
             public void recordStart() {
                 mSwitchCamera.setVisibility(INVISIBLE);
-//                mFlashLamp.setVisibility(INVISIBLE);
+                //mFlashLamp.setVisibility(INVISIBLE);
                 mCameraView.setMode(Mode.VIDEO);
                 if (mCameraView.isTakingVideo()) {
                     mCameraView.stopVideo();
                 }
-                mCameraView.takeVideoSnapshot(initStartRecordingPath(mContext));
+                //mCameraView.takeVideoSnapshot(initStartRecordingPath(mContext));
+                mCameraView.postDelayed(() -> mCameraView.takeVideoSnapshot(initStartRecordingPath(mContext)), 100);
+                //mCameraView.takeVideo(initStartRecordingPath(mContext));
             }
 
             @Override
             public void recordShort(final long time) {
                 recordTime = time;
                 mSwitchCamera.setVisibility(VISIBLE);
-//                mFlashLamp.setVisibility(VISIBLE);
+                //mFlashLamp.setVisibility(VISIBLE);
                 mCaptureLayout.resetCaptureLayout();
                 mCaptureLayout.setTextWithAnimation("录制时间过短");
-                if (mCameraView.isTakingVideo()) {
-                    mCameraView.stopVideo();
-                }
+                mCameraView.stopVideo();
             }
 
             @Override
             public void recordEnd(long time) {
                 recordTime = time;
-                if (mCameraView.isTakingVideo()) {
-                    mCameraView.stopVideo();
-                }
+                mCameraView.stopVideo();
             }
 
             @Override
             public void recordZoom(float zoom) {
-
+                //mCameraView.setZoom(zoom);
             }
 
             @Override
@@ -319,6 +326,18 @@ public class CustomCameraView extends FrameLayout {
                 mCameraView.destroy();
             }
         });
+    }
+
+    /**
+     * 设置拍摄模式分别是
+     * 单独拍照 单独摄像 或者都支持
+     *
+     * @param state
+     */
+    public void setCaptureMode(int state) {
+        if (mCaptureLayout != null) {
+            mCaptureLayout.setButtonFeatures(state);
+        }
     }
 
     /**

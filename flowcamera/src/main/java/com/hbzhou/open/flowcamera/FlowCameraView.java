@@ -48,6 +48,11 @@ public class FlowCameraView extends FrameLayout {
     private static final int TYPE_FLASH_ON = 0x022;
     private static final int TYPE_FLASH_OFF = 0x023;
     private int type_flash = TYPE_FLASH_OFF;
+
+    // 选择拍照 拍视频 或者都有
+    public static final int BUTTON_STATE_ONLY_CAPTURE = 0x101;      //只能拍照
+    public static final int BUTTON_STATE_ONLY_RECORDER = 0x102;     //只能录像
+    public static final int BUTTON_STATE_BOTH = 0x103;
     //回调监听
     private FlowCameraListener flowCameraListener;
     private ClickListener leftClickListener;
@@ -314,6 +319,18 @@ public class FlowCameraView extends FrameLayout {
      */
     public void setRecordVideoMaxTime(int maxDurationTime) {
         mCaptureLayout.setDuration(maxDurationTime * 1000);
+    }
+
+    /**
+     * 设置拍摄模式分别是
+     * 单独拍照 单独摄像 或者都支持
+     *
+     * @param state
+     */
+    public void setCaptureMode(int state) {
+        if (mCaptureLayout != null) {
+            mCaptureLayout.setButtonFeatures(state);
+        }
     }
 
     /**
