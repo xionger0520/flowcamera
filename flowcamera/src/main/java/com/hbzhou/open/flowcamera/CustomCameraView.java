@@ -166,10 +166,8 @@ public class CustomCameraView extends FrameLayout {
             @Override
             public void onVideoTaken(@NonNull VideoResult result) {
                 super.onVideoTaken(result);
-                LogUtil.e("onVideoTaken---");
                 videoFile = result.getFile();
                 if (!videoFile.exists() || (recordTime < 1500 && videoFile.exists() && videoFile.delete())) {
-                    LogUtil.e("onVideoNotExists---" + recordTime);
                     return;
                 }
                 mCaptureLayout.startTypeBtnAnimator();
