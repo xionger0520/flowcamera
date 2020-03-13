@@ -157,9 +157,6 @@ public class CustomCameraView extends FrameLayout {
                     // If the folder selected is an external media directory, this is unnecessary
                     // but otherwise other apps will not be able to access our images unless we
                     // scan them using [MediaScannerConnection]
-                    String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf(".") + 1));
-                    MediaScannerConnection.scanFile(
-                            mContext, new String[]{file.getAbsolutePath()}, new String[]{mimeType}, null);
                 });
             }
 
@@ -201,13 +198,6 @@ public class CustomCameraView extends FrameLayout {
                         }
                     });
                 }
-
-                // If the folder selected is an external media directory, this is unnecessary
-                // but otherwise other apps will not be able to access our images unless we
-                // scan them using [MediaScannerConnection]
-                String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(videoFile.getAbsolutePath().substring(videoFile.getAbsolutePath().lastIndexOf(".") + 1));
-                MediaScannerConnection.scanFile(
-                        mContext, new String[]{videoFile.getAbsolutePath()}, new String[]{mimeType}, null);
             }
         });
         mCameraView.setEngine(Engine.CAMERA2);
@@ -280,11 +270,13 @@ public class CustomCameraView extends FrameLayout {
                     if (flowCameraListener != null) {
                         flowCameraListener.recordSuccess(videoFile);
                     }
+                    scanPhotoAlbum(videoFile);
                 } else {
                     mPhoto.setVisibility(INVISIBLE);
                     if (flowCameraListener != null) {
                         flowCameraListener.captureSuccess(photoFile);
                     }
+                    scanPhotoAlbum(photoFile);
                 }
             }
         });
@@ -293,6 +285,20 @@ public class CustomCameraView extends FrameLayout {
                 leftClickListener.onClick();
             }
         });
+    }
+
+    /**
+     * 当确认保存此文件时才去扫描相册更新并显示视频和图片
+     *
+     * @param dataFile
+     */
+    private void scanPhotoAlbum(File dataFile) {
+        if (dataFile == null) {
+            return;
+        }
+        String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(dataFile.getAbsolutePath().substring(dataFile.getAbsolutePath().lastIndexOf(".") + 1));
+        MediaScannerConnection.scanFile(
+                mContext, new String[]{dataFile.getAbsolutePath()}, new String[]{mimeType}, null);
     }
 
     public File initTakePicPath(Context context) {
