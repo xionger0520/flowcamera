@@ -38,6 +38,8 @@ import com.otaliastudios.cameraview.controls.Engine;
 import com.otaliastudios.cameraview.controls.Hdr;
 import com.otaliastudios.cameraview.controls.Mode;
 import com.otaliastudios.cameraview.controls.WhiteBalance;
+import com.otaliastudios.cameraview.gesture.Gesture;
+import com.otaliastudios.cameraview.gesture.GestureAction;
 import com.otaliastudios.cameraview.size.AspectRatio;
 import com.otaliastudios.cameraview.size.SizeSelector;
 import com.otaliastudios.cameraview.size.SizeSelectors;
@@ -131,6 +133,7 @@ public class CustomCameraView extends FrameLayout {
         );
         mCameraView.setHdr(Hdr.ON);
         mCameraView.setAudio(Audio.ON);
+        mCameraView.mapGesture(Gesture.TAP, GestureAction.AUTO_FOCUS);
 
         // 修复拍照拍视频切换时预览尺寸拉伸的问题
         mCameraView.setSnapshotMaxHeight(2160);
@@ -138,7 +141,7 @@ public class CustomCameraView extends FrameLayout {
         SizeSelector width = SizeSelectors.minWidth(1080);
         SizeSelector height = SizeSelectors.minHeight(2160);
         SizeSelector dimensions = SizeSelectors.and(width, height); // Matches sizes bigger than 1000x2000.
-        SizeSelector ratio = SizeSelectors.aspectRatio(AspectRatio.of(1, 2), 0); // Matches 1:1 sizes.
+        SizeSelector ratio = SizeSelectors.aspectRatio(AspectRatio.of(9, 16), 0); // Matches 1:1 sizes.
 
         SizeSelector result = SizeSelectors.or(
                 SizeSelectors.and(ratio, dimensions), // Try to match both constraints
@@ -233,7 +236,7 @@ public class CustomCameraView extends FrameLayout {
                 //mFlashLamp.setVisibility(INVISIBLE);
                 mCameraView.setMode(Mode.PICTURE);
                 mCameraView.takePictureSnapshot();
-                // mCameraView.postDelayed(() -> mCameraView.takePicture(), 100);
+                //mCameraView.postDelayed(() -> mCameraView.takePicture(), 100);
             }
 
             @Override
