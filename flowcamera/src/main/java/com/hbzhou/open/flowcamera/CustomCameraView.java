@@ -131,7 +131,7 @@ public class CustomCameraView extends FrameLayout {
         );
         mCameraView.setHdr(Hdr.ON);
         mCameraView.setAudio(Audio.ON);
-        
+
         // 修复拍照拍视频切换时预览尺寸拉伸的问题
         mCameraView.setSnapshotMaxHeight(2160);
         mCameraView.setSnapshotMaxWidth(1080);
