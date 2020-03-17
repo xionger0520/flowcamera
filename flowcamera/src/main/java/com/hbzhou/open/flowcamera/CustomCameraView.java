@@ -38,6 +38,9 @@ import com.otaliastudios.cameraview.controls.Engine;
 import com.otaliastudios.cameraview.controls.Hdr;
 import com.otaliastudios.cameraview.controls.Mode;
 import com.otaliastudios.cameraview.controls.WhiteBalance;
+import com.otaliastudios.cameraview.size.AspectRatio;
+import com.otaliastudios.cameraview.size.SizeSelector;
+import com.otaliastudios.cameraview.size.SizeSelectors;
 
 import java.io.File;
 import java.io.IOException;
@@ -128,6 +131,25 @@ public class CustomCameraView extends FrameLayout {
         );
         mCameraView.setHdr(Hdr.ON);
         mCameraView.setAudio(Audio.ON);
+        
+        // 修复拍照拍视频切换时预览尺寸拉伸的问题
+        mCameraView.setSnapshotMaxHeight(2160);
+        mCameraView.setSnapshotMaxWidth(1080);
+        SizeSelector width = SizeSelectors.minWidth(1080);
+        SizeSelector height = SizeSelectors.minHeight(2160);
+        SizeSelector dimensions = SizeSelectors.and(width, height); // Matches sizes bigger than 1000x2000.
+        SizeSelector ratio = SizeSelectors.aspectRatio(AspectRatio.of(1, 2), 0); // Matches 1:1 sizes.
+
+        SizeSelector result = SizeSelectors.or(
+                SizeSelectors.and(ratio, dimensions), // Try to match both constraints
+                ratio, // If none is found, at least try to match the aspect ratio
+                SizeSelectors.biggest() // If none is found, take the biggest
+        );
+        mCameraView.setPreviewStreamSize(result);
+        mCameraView.setVideoSize(result);
+        mCameraView.setPictureSize(result);
+        // 修复拍照拍视频切换时预览尺寸拉伸的问题----
+
         //mCameraView.setPreview(Preview.TEXTURE);
         // 拍照录像回调
         mCameraView.addCameraListener(new CameraListener() {
