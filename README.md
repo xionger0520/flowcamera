@@ -73,8 +73,7 @@ android {
   
 ### 布局文件中添加
 ```xml
-
-鉴于当前CameraX是alpha版本  测试发现在小米手机上运行有不少兼容性问题 
+ 
 目前建议先使用CustomCameraView
 <com.hbzhou.open.flowcamera.CustomCameraView
         android:id="@+id/customCamera"
