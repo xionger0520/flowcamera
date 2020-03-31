@@ -154,6 +154,10 @@ wechat: zhouhaibin8357
 
 1004695331@qq.com
 
+## 如果你正在找工作或是考虑换工作，这个Android进阶教程也许能助你拿大厂offer
+
+<img src="https://github.com/xionger0520/flowcamera/blob/master/assets/mmp3.png" width="200"/>
+
 ## 如果本开源项目解决了你的小问题  大佬就打个赏呗
 
 <img src="https://github.com/xionger0520/flowcamera/blob/master/assets/alipayicon.jpg" width="200"/>
