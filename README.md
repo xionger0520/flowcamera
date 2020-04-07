@@ -148,7 +148,7 @@ val flowCamera = findViewById<CustomCameraView>(R.id.flowCamera)
 
 ## 作者
 
-如果有其他的定制需求可以联系我
+如果有其他复杂需求可付费定制
 
 wechat: zhouhaibin8357
 
