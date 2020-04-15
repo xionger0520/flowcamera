@@ -1,4 +1,4 @@
-package com.hbzhou.open.CameraView
+package com.hbzhou.open.camera
 
 import android.app.Application
 import androidx.camera.camera2.Camera2Config

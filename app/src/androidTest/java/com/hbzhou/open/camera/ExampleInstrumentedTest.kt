@@ -1,4 +1,4 @@
-package com.hbzhou.open.CameraView
+package com.hbzhou.open.camera
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

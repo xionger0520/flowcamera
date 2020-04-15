@@ -1,4 +1,4 @@
-package com.hbzhou.open.CameraView
+package com.hbzhou.open.camera
 
 import android.content.Intent
 import android.os.Bundle
