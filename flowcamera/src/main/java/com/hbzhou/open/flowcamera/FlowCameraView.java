@@ -373,19 +373,17 @@ public class FlowCameraView extends FrameLayout {
      * 重置状态
      */
     private void resetState() {
-        if (mVideoView.getCaptureMode() == CameraView.CaptureMode.VIDEO) {
-            if (mVideoView.isRecording()) {
-                mVideoView.stopRecording();
-            }
-            if (videoFile != null && videoFile.exists() && videoFile.delete()) {
-                LogUtil.i("videoFile is clear");
-            }
-        } else {
-            mPhoto.setVisibility(INVISIBLE);
-            if (photoFile != null && photoFile.exists() && photoFile.delete()) {
-                LogUtil.i("photoFile is clear");
-            }
+        if (mVideoView.isRecording()) {
+            mVideoView.stopRecording();
         }
+        if (videoFile != null && videoFile.exists() && videoFile.delete()) {
+            LogUtil.i("videoFile is clear");
+        }
+
+        if (photoFile != null && photoFile.exists() && photoFile.delete()) {
+            LogUtil.i("photoFile is clear");
+        }
+        mPhoto.setVisibility(INVISIBLE);
         mSwitchCamera.setVisibility(VISIBLE);
         mFlashLamp.setVisibility(VISIBLE);
         mVideoView.setVisibility(View.VISIBLE);
