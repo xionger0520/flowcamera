@@ -42,7 +42,7 @@ allprojects {
 
 dependencies {
 
-	implementation 'com.github.xionger0520:flowcamera:V1.1.1'
+	implementation 'com.github.xionger0520:flowcamera:V1.1.2'
 
 }
 
@@ -74,13 +74,13 @@ android {
 ### 布局文件中添加
 ```xml
  
-目前建议先使用CustomCameraView
+基于Camera2 Api的Custom版本，拍照速度更快
 <com.hbzhou.open.flowcamera.CustomCameraView
         android:id="@+id/customCamera"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
-待CameraX库稳定后可使用以下flow版本
+基于CameraX库flow版本,兼容性稳定性进一步增强
 <com.hbzhou.open.flowcamera.FlowCameraView
         android:id="@+id/flowCamera"
         android:layout_width="match_parent"
