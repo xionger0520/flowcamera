@@ -252,13 +252,13 @@ public class FlowCameraView extends FrameLayout {
 
             @Override
             public void confirm() {
-                if (mVideoView.getCaptureMode() == CameraView.CaptureMode.VIDEO) {
+                if (videoFile != null && videoFile.exists()) {
                     stopVideoPlay();
                     if (flowCameraListener != null) {
                         flowCameraListener.recordSuccess(videoFile);
                     }
                     scanPhotoAlbum(videoFile);
-                } else {
+                } else if (photoFile != null && photoFile.exists()) {
                     mPhoto.setVisibility(INVISIBLE);
                     if (flowCameraListener != null) {
                         flowCameraListener.captureSuccess(photoFile);
