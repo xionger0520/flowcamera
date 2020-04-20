@@ -114,6 +114,9 @@ public class FlowCameraView extends FrameLayout {
             setFlashRes();
         });
         mVideoView.enableTorch(true);
+        // 设置支持拍照和拍视频
+        mVideoView.setCaptureMode(CameraView.CaptureMode.MIXED);
+
         mCaptureLayout = view.findViewById(R.id.capture_layout);
         mCaptureLayout.setDuration(duration);
         mCaptureLayout.setIconSrc(iconLeft, iconRight);
@@ -125,7 +128,7 @@ public class FlowCameraView extends FrameLayout {
             public void takePictures() {
                 mSwitchCamera.setVisibility(INVISIBLE);
                 mFlashLamp.setVisibility(INVISIBLE);
-                mVideoView.setCaptureMode(CameraView.CaptureMode.IMAGE);
+                //mVideoView.setCaptureMode(CameraView.CaptureMode.IMAGE);
 
                 //测试新版本 CameraView
                 mVideoView.takePicture(photoFile = initTakePicPath(mContext), ContextCompat.getMainExecutor(mContext), new ImageCapture.OnImageSavedCallback() {
@@ -160,7 +163,7 @@ public class FlowCameraView extends FrameLayout {
             public void recordStart() {
                 mSwitchCamera.setVisibility(INVISIBLE);
                 mFlashLamp.setVisibility(INVISIBLE);
-                mVideoView.setCaptureMode(CameraView.CaptureMode.VIDEO);
+                //mVideoView.setCaptureMode(CameraView.CaptureMode.VIDEO);
                 mVideoView.startRecording(initStartRecordingPath(mContext), ContextCompat.getMainExecutor(mContext), new VideoCapture.OnVideoSavedCallback() {
                     @Override
                     public void onVideoSaved(@NonNull File file) {
