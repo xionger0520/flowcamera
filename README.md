@@ -7,7 +7,6 @@
 ## 仿微信拍照和拍小视频界面 使用最新的CameraX相机库
 ## 适配Android Q存储权限 可以点击拍照长按拍摄小视频也可设置只拍照  只拍视频
 ## 可设置白平衡 HDR 视频拍摄最大时长 闪光灯 手势缩放等
-## 有定制需求 有什么PY交易请马上联系我 WeChat:zhouhaibin8357
 ## 用了本库的攻城狮们点个star啊 本是同根生 相煎何太急
 
 <img src="https://github.com/xionger0520/flowcamera/blob/master/assets/mmp1.png" width="200"/>
