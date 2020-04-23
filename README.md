@@ -4,26 +4,11 @@
 [![](https://jitpack.io/v/xionger0520/flowcamera.svg)](https://jitpack.io/#xionger0520/flowcamera)
 
 
-
 ## 仿微信拍照和拍小视频界面 使用最新的CameraX相机库
 ## 适配Android Q存储权限 可以点击拍照长按拍摄小视频也可设置只拍照  只拍视频
 ## 可设置白平衡 HDR 视频拍摄最大时长 闪光灯 手势缩放等
 ## 有定制需求 有什么PY交易请马上联系我 WeChat:zhouhaibin8357
 ## 用了本库的攻城狮们点个star啊 本是同根生 相煎何太急
-
-### ---清晰的分割线---
-
-### 之前项目有个拍照和拍小视频的需求 使用的是这位大佬的项目  非常感谢
-
-https://github.com/CJT2325/CameraView
-
-<img src="https://github.com/xionger0520/flowcamera/blob/master/assets/mmp2.jpg" width="200"/>
-
-### 大佬由于未知原因已经很久没更新了 这个库因为使用的是系统相机操作的api 但是在国内大厂对相机的持续优化下... 
-### 有不少兼容性和稳定性问题 在AndroidQ系统下就有不少bug 
-### Google也意识到了这个问题 于是CameraX就诞生了 目的就是为了提升相机api的易用稳定和兼容性 
-### 所以我就用CameraX重写了关于相机操作的代码
-### 此项目我会定期维护更新
 
 <img src="https://github.com/xionger0520/flowcamera/blob/master/assets/mmp1.png" width="200"/>
 
@@ -153,10 +138,6 @@ val flowCamera = findViewById<CustomCameraView>(R.id.flowCamera)
 wechat: zhouhaibin8357
 
 1004695331@qq.com
-
-## 如果你正在找工作或是考虑换工作，这个Android进阶教程也许能助你拿大厂offer
-
-<img src="https://github.com/xionger0520/flowcamera/blob/master/assets/mmp3.png" width="200"/>
 
 ## 如果本开源项目解决了你的小问题  大佬就打个赏呗
 
