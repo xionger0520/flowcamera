@@ -26,11 +26,6 @@ class WelcomeActivity : AppCompatActivity() {
             PermissionConstants.CAMERA,
             PermissionConstants.MICROPHONE
         )
-            .rationale { shouldRequest: ShouldRequest ->
-                shouldRequest.again(
-                    true
-                )
-            }
             .callback(object : FullCallback {
                 override fun onGranted(permissionsGranted: List<String>) {
                     startActivity(Intent(this@WelcomeActivity, MainActivity::class.java))

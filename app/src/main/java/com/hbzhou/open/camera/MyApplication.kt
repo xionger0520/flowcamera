@@ -12,7 +12,7 @@ import com.blankj.utilcode.util.Utils
 class MyApplication : Application(), CameraXConfig.Provider {
     override fun onCreate() {
         super.onCreate()
-        Utils.init(applicationContext)
+        Utils.init(this)
     }
 
     override fun getCameraXConfig(): CameraXConfig {
