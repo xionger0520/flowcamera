@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.SurfaceTexture;
 import android.media.MediaPlayer;
 import android.media.MediaScannerConnection;
+import android.net.Uri;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.Surface;
@@ -19,7 +20,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.camera.core.ImageCapture;
+import androidx.camera.core.ImageCapture.OutputFileOptions;
 import androidx.camera.core.ImageCaptureException;
+import androidx.camera.core.ImageProxy;
 import androidx.camera.core.VideoCapture;
 import androidx.camera.view.CameraView;
 import androidx.core.content.ContextCompat;
@@ -130,8 +133,9 @@ public class FlowCameraView extends FrameLayout {
                 mFlashLamp.setVisibility(INVISIBLE);
                 //mVideoView.setCaptureMode(CameraView.CaptureMode.IMAGE);
 
+                OutputFileOptions.Builder outputFileOptions = new ImageCapture.OutputFileOptions.Builder(photoFile = initTakePicPath(mContext));
                 //测试新版本 CameraView
-                mVideoView.takePicture(photoFile = initTakePicPath(mContext), ContextCompat.getMainExecutor(mContext), new ImageCapture.OnImageSavedCallback() {
+                mVideoView.takePicture(outputFileOptions.build(), ContextCompat.getMainExecutor(mContext), new ImageCapture.OnImageSavedCallback() {
                     @Override
                     public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
                         if (!photoFile.exists()) {
