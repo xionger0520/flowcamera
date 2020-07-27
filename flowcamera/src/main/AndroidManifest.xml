@@ -1,2 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.hbzhou.open.flowcamera" />
+    package="com.hbzhou.open.flowcamera" >
+
+    <uses-permission android:name="android.permission.CAMERA" />
+</manifest>

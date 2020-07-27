@@ -1,6 +1,8 @@
 package com.hbzhou.open.flowcamera;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.graphics.SurfaceTexture;
 import android.media.MediaPlayer;
@@ -25,6 +27,7 @@ import androidx.camera.core.ImageCaptureException;
 import androidx.camera.core.ImageProxy;
 import androidx.camera.core.VideoCapture;
 import androidx.camera.view.CameraView;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LifecycleEventObserver;
 import androidx.lifecycle.LifecycleOwner;
@@ -310,21 +313,19 @@ public class FlowCameraView extends FrameLayout {
 
     // 绑定生命周期 否者界面可能一片黑
     public void setBindToLifecycle(LifecycleOwner lifecycleOwner) {
+        if (ActivityCompat.checkSelfPermission((Context) lifecycleOwner, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
         mVideoView.bindToLifecycle(lifecycleOwner);
         lifecycleOwner.getLifecycle().addObserver((LifecycleEventObserver) (source, event) -> {
             LogUtil.i("event---", event.toString());
-//            if (event == Lifecycle.Event.ON_STOP) {
-//                mTextureView.destroyDrawingCache();
-//                mVideoView.removeAllViews();
-//                mVideoView.destroyDrawingCache();
-//                mCaptureLayout.removeAllViews();
-//                mCaptureLayout.destroyDrawingCache();
-//                this.removeAllViews();
-//                this.destroyDrawingCache();
-//                mCaptureLayout = null;
-//                mVideoView = null;
-//                mTextureView = null;
-//            }
         });
     }
 
