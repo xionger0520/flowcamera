@@ -234,7 +234,7 @@ public class CustomCameraView extends FrameLayout {
             @Override
             public void takePictures() {
                 mSwitchCamera.setVisibility(INVISIBLE);
-                //mFlashLamp.setVisibility(INVISIBLE);
+                mFlashLamp.setVisibility(INVISIBLE);
                 mCameraView.setMode(Mode.PICTURE);
                 mCameraView.takePicture();
                 //mCameraView.postDelayed(() -> mCameraView.takePicture(), 100);
@@ -243,7 +243,7 @@ public class CustomCameraView extends FrameLayout {
             @Override
             public void recordStart() {
                 mSwitchCamera.setVisibility(INVISIBLE);
-                //mFlashLamp.setVisibility(INVISIBLE);
+                mFlashLamp.setVisibility(INVISIBLE);
                 mCameraView.setMode(Mode.VIDEO);
                 if (mCameraView.isTakingVideo()) {
                     mCameraView.stopVideo();
@@ -257,7 +257,7 @@ public class CustomCameraView extends FrameLayout {
             public void recordShort(final long time) {
                 recordTime = time;
                 mSwitchCamera.setVisibility(VISIBLE);
-                //mFlashLamp.setVisibility(VISIBLE);
+                mFlashLamp.setVisibility(VISIBLE);
                 mCaptureLayout.resetCaptureLayout();
                 mCaptureLayout.setTextWithAnimation("录制时间过短");
                 mCameraView.stopVideo();
@@ -439,7 +439,7 @@ public class CustomCameraView extends FrameLayout {
             }
         }
         mSwitchCamera.setVisibility(VISIBLE);
-//        mFlashLamp.setVisibility(VISIBLE);
+        mFlashLamp.setVisibility(VISIBLE);
         mCameraView.setVisibility(View.VISIBLE);
         mCaptureLayout.resetCaptureLayout();
     }
