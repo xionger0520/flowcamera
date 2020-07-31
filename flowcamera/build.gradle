@@ -43,5 +43,5 @@ dependencies {
     // PhotoView
     api 'com.github.chrisbanes:PhotoView:2.3.0'
     // custom camera view
-    api 'com.otaliastudios:cameraview:2.6.2'
+    api 'com.otaliastudios:cameraview:2.6.3'
 }

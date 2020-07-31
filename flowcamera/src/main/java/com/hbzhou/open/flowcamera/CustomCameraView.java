@@ -2,10 +2,12 @@ package com.hbzhou.open.flowcamera;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.PointF;
 import android.graphics.SurfaceTexture;
 import android.media.MediaPlayer;
 import android.media.MediaScannerConnection;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Surface;
 import android.view.TextureView;
@@ -38,6 +40,7 @@ import com.otaliastudios.cameraview.controls.Engine;
 import com.otaliastudios.cameraview.controls.Flash;
 import com.otaliastudios.cameraview.controls.Hdr;
 import com.otaliastudios.cameraview.controls.Mode;
+import com.otaliastudios.cameraview.controls.Preview;
 import com.otaliastudios.cameraview.controls.WhiteBalance;
 import com.otaliastudios.cameraview.gesture.Gesture;
 import com.otaliastudios.cameraview.gesture.GestureAction;
@@ -135,7 +138,8 @@ public class CustomCameraView extends FrameLayout {
         mCameraView.setHdr(Hdr.ON);
         mCameraView.setAudio(Audio.ON);
         mCameraView.mapGesture(Gesture.TAP, GestureAction.AUTO_FOCUS);
-
+        mCameraView.setEngine(Engine.CAMERA2);
+        mCameraView.setPreview(Preview.GL_SURFACE);
         // 修复拍照拍视频切换时预览尺寸拉伸的问题
         mCameraView.setSnapshotMaxHeight(2160);
         mCameraView.setSnapshotMaxWidth(1080);
@@ -226,7 +230,6 @@ public class CustomCameraView extends FrameLayout {
                 }
             }
         });
-        mCameraView.setEngine(Engine.CAMERA2);
         // 初始化缩放手势
         // mCameraView.mapGesture(Gesture.PINCH, GestureAction.ZOOM);
         //拍照 录像
@@ -236,8 +239,8 @@ public class CustomCameraView extends FrameLayout {
                 mSwitchCamera.setVisibility(INVISIBLE);
                 mFlashLamp.setVisibility(INVISIBLE);
                 mCameraView.setMode(Mode.PICTURE);
-                mCameraView.takePicture();
-                //mCameraView.postDelayed(() -> mCameraView.takePicture(), 100);
+//                mCameraView.takePicture();
+                mCameraView.postDelayed(() -> mCameraView.takePicture(), 100);
             }
 
             @Override
@@ -245,12 +248,12 @@ public class CustomCameraView extends FrameLayout {
                 mSwitchCamera.setVisibility(INVISIBLE);
                 mFlashLamp.setVisibility(INVISIBLE);
                 mCameraView.setMode(Mode.VIDEO);
-                if (mCameraView.isTakingVideo()) {
-                    mCameraView.stopVideo();
-                }
+//                if (mCameraView.isTakingVideo()) {
+//                    mCameraView.stopVideo();
+//                }
                 //mCameraView.takeVideoSnapshot(initStartRecordingPath(mContext));
                 mCameraView.postDelayed(() -> mCameraView.takeVideo(initStartRecordingPath(mContext)), 100);
-                //mCameraView.takeVideo(initStartRecordingPath(mContext));
+//                mCameraView.takeVideo(initStartRecordingPath(mContext));
             }
 
             @Override
@@ -328,7 +331,7 @@ public class CustomCameraView extends FrameLayout {
     }
 
     public File initTakePicPath(Context context) {
-        return new File(context.getExternalMediaDirs()[0], System.currentTimeMillis() + ".jpg");
+        return new File(context.getExternalMediaDirs()[0], System.currentTimeMillis() + ".jpeg");
     }
 
     public File initStartRecordingPath(Context context) {
