@@ -9,6 +9,8 @@ import android.media.MediaPlayer;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Surface;
 import android.view.TextureView;
@@ -21,11 +23,13 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageCapture;
 import androidx.camera.core.ImageCapture.OutputFileOptions;
 import androidx.camera.core.ImageCaptureException;
 import androidx.camera.core.ImageProxy;
 import androidx.camera.core.VideoCapture;
+import androidx.camera.core.impl.VideoCaptureConfig;
 import androidx.camera.view.CameraView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -136,7 +140,16 @@ public class FlowCameraView extends FrameLayout {
                 mFlashLamp.setVisibility(INVISIBLE);
                 //mVideoView.setCaptureMode(CameraView.CaptureMode.IMAGE);
 
+                // 修复了前置摄像头拍照后  预览左右镜像的问题
+                Integer lensFacing = mVideoView.getCameraLensFacing();
+                if (lensFacing == null) {
+                    lensFacing = CameraSelector.LENS_FACING_BACK;
+                }
                 OutputFileOptions.Builder outputFileOptions = new ImageCapture.OutputFileOptions.Builder(photoFile = initTakePicPath(mContext));
+                ImageCapture.Metadata metadata = new ImageCapture.Metadata();
+                metadata.setReversedHorizontal(CameraSelector.LENS_FACING_FRONT == lensFacing);
+                outputFileOptions.setMetadata(metadata);;
+
                 //测试新版本 CameraView
                 mVideoView.takePicture(outputFileOptions.build(), ContextCompat.getMainExecutor(mContext), new ImageCapture.OnImageSavedCallback() {
                     @Override
@@ -170,7 +183,6 @@ public class FlowCameraView extends FrameLayout {
             public void recordStart() {
                 mSwitchCamera.setVisibility(INVISIBLE);
                 mFlashLamp.setVisibility(INVISIBLE);
-                //mVideoView.setCaptureMode(CameraView.CaptureMode.VIDEO);
                 mVideoView.startRecording(initStartRecordingPath(mContext), ContextCompat.getMainExecutor(mContext), new VideoCapture.OnVideoSavedCallback() {
                     @Override
                     public void onVideoSaved(@NonNull File file) {
@@ -296,7 +308,7 @@ public class FlowCameraView extends FrameLayout {
     }
 
     public File initTakePicPath(Context context) {
-        return new File(context.getExternalMediaDirs()[0], System.currentTimeMillis() + ".jpg");
+        return new File(context.getExternalMediaDirs()[0], System.currentTimeMillis() + ".jpeg");
     }
 
     public File initStartRecordingPath(Context context) {
@@ -410,7 +422,6 @@ public class FlowCameraView extends FrameLayout {
             mMediaPlayer.setLooping(true);
             mMediaPlayer.setOnPreparedListener(mp -> {
                 mp.start();
-
                 float ratio = mp.getVideoWidth() * 1f / mp.getVideoHeight();
                 int width1 = mTextureView.getWidth();
                 ViewGroup.LayoutParams layoutParams = mTextureView.getLayoutParams();

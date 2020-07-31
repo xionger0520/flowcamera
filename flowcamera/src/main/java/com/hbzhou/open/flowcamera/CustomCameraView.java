@@ -32,18 +32,22 @@ import com.hbzhou.open.flowcamera.listener.TypeListener;
 import com.hbzhou.open.flowcamera.util.LogUtil;
 import com.otaliastudios.cameraview.CameraException;
 import com.otaliastudios.cameraview.CameraListener;
+import com.otaliastudios.cameraview.CameraOptions;
 import com.otaliastudios.cameraview.CameraView;
 import com.otaliastudios.cameraview.PictureResult;
 import com.otaliastudios.cameraview.VideoResult;
 import com.otaliastudios.cameraview.controls.Audio;
+import com.otaliastudios.cameraview.controls.AudioCodec;
 import com.otaliastudios.cameraview.controls.Engine;
 import com.otaliastudios.cameraview.controls.Flash;
 import com.otaliastudios.cameraview.controls.Hdr;
 import com.otaliastudios.cameraview.controls.Mode;
 import com.otaliastudios.cameraview.controls.Preview;
+import com.otaliastudios.cameraview.controls.VideoCodec;
 import com.otaliastudios.cameraview.controls.WhiteBalance;
 import com.otaliastudios.cameraview.gesture.Gesture;
 import com.otaliastudios.cameraview.gesture.GestureAction;
+import com.otaliastudios.cameraview.markers.DefaultAutoFocusMarker;
 import com.otaliastudios.cameraview.size.AspectRatio;
 import com.otaliastudios.cameraview.size.SizeSelector;
 import com.otaliastudios.cameraview.size.SizeSelectors;
@@ -140,11 +144,16 @@ public class CustomCameraView extends FrameLayout {
         mCameraView.mapGesture(Gesture.TAP, GestureAction.AUTO_FOCUS);
         mCameraView.setEngine(Engine.CAMERA2);
         mCameraView.setPreview(Preview.GL_SURFACE);
+
+        mCameraView.setPlaySounds(true);
+        mCameraView.setAudioCodec(AudioCodec.DEVICE_DEFAULT);
+        mCameraView.setVideoCodec(VideoCodec.DEVICE_DEFAULT);
+        mCameraView.setAutoFocusMarker(new DefaultAutoFocusMarker());
         // 修复拍照拍视频切换时预览尺寸拉伸的问题
         mCameraView.setSnapshotMaxHeight(2160);
         mCameraView.setSnapshotMaxWidth(1080);
-        SizeSelector width = SizeSelectors.minWidth(1080);
-        SizeSelector height = SizeSelectors.minHeight(2160);
+        SizeSelector width = SizeSelectors.maxWidth(1080);
+        SizeSelector height = SizeSelectors.maxHeight(2160);
         SizeSelector dimensions = SizeSelectors.and(width, height); // Matches sizes bigger than 1000x2000.
         SizeSelector ratio = SizeSelectors.aspectRatio(AspectRatio.of(9, 16), 0); // Matches 1:1 sizes.
 
@@ -248,6 +257,7 @@ public class CustomCameraView extends FrameLayout {
                 mSwitchCamera.setVisibility(INVISIBLE);
                 mFlashLamp.setVisibility(INVISIBLE);
                 mCameraView.setMode(Mode.VIDEO);
+
 //                if (mCameraView.isTakingVideo()) {
 //                    mCameraView.stopVideo();
 //                }
