@@ -5,11 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.blankj.utilcode.util.ToastUtils
 import com.hbzhou.open.flowcamera.CustomCameraView
 import com.hbzhou.open.flowcamera.CustomCameraView.BUTTON_STATE_BOTH
-import com.hbzhou.open.flowcamera.FlowCameraView
+import com.hbzhou.open.flowcamera.FlowCameraView2
+import com.hbzhou.open.flowcamera.listener.ClickListener
 import com.hbzhou.open.flowcamera.listener.FlowCameraListener
 import com.hbzhou.open.flowcamera.util.LogUtil
-import com.otaliastudios.cameraview.controls.Hdr
-import com.otaliastudios.cameraview.controls.WhiteBalance
 import java.io.File
 
 
@@ -54,8 +53,6 @@ class MainActivity : AppCompatActivity() {
             }
         })
         //左边按钮点击事件
-        flowCamera.setLeftClickListener {
-            finish()
-        }
+        flowCamera.setLeftClickListener(ClickListener { finish() })
     }
 }

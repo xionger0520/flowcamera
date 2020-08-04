@@ -9,13 +9,13 @@ import com.blankj.utilcode.util.Utils
  * author hbzhou
  * date 2019/12/16 13:54
  */
-class MyApplication : Application(), CameraXConfig.Provider {
+class MyApplication : Application()/*, CameraXConfig.Provider*/ {
     override fun onCreate() {
         super.onCreate()
         Utils.init(this)
     }
 
-    override fun getCameraXConfig(): CameraXConfig {
-        return Camera2Config.defaultConfig()
-    }
+//    override fun getCameraXConfig(): CameraXConfig {
+//        return Camera2Config.defaultConfig()
+//    }
 }

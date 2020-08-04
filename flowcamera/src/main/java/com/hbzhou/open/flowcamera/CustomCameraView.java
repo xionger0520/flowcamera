@@ -2,10 +2,12 @@ package com.hbzhou.open.flowcamera;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.graphics.SurfaceTexture;
 import android.media.MediaPlayer;
 import android.media.MediaScannerConnection;
+import android.net.Uri;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,7 +18,9 @@ import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -124,14 +128,14 @@ public class CustomCameraView extends FrameLayout {
         mPhoto = view.findViewById(R.id.image_photo);
         mSwitchCamera = view.findViewById(R.id.image_switch);
         mSwitchCamera.setImageResource(iconSrc);
-        mFlashLamp = view.findViewById(R.id.image_flash);
-        setFlashRes();
-        mFlashLamp.setOnClickListener(v -> {
-            type_flash++;
-            if (type_flash > 0x023)
-                type_flash = TYPE_FLASH_AUTO;
-            setFlashRes();
-        });
+//        mFlashLamp = view.findViewById(R.id.image_flash);
+//        setFlashRes();
+//        mFlashLamp.setOnClickListener(v -> {
+//            type_flash++;
+//            if (type_flash > 0x023)
+//                type_flash = TYPE_FLASH_AUTO;
+//            setFlashRes();
+//        });
         mCaptureLayout = view.findViewById(R.id.capture_layout);
         mCaptureLayout.setDuration(duration);
         mCaptureLayout.setIconSrc(iconLeft, iconRight);
@@ -139,16 +143,21 @@ public class CustomCameraView extends FrameLayout {
         mSwitchCamera.setOnClickListener(v ->
                 mCameraView.toggleFacing()
         );
-        mCameraView.setHdr(Hdr.ON);
-        mCameraView.setAudio(Audio.ON);
-        mCameraView.mapGesture(Gesture.TAP, GestureAction.AUTO_FOCUS);
-        mCameraView.setEngine(Engine.CAMERA2);
+//        mCameraView.setHdr(Hdr.ON);
+//        mCameraView.setAudio(Audio.ON);
+//        mCameraView.mapGesture(Gesture.TAP, GestureAction.AUTO_FOCUS);
+//        mCameraView.setEngine(Engine.CAMERA2);
         mCameraView.setPreview(Preview.GL_SURFACE);
+//        mCameraView.setRotation(0);
 
-        mCameraView.setPlaySounds(true);
-        mCameraView.setAudioCodec(AudioCodec.DEVICE_DEFAULT);
-        mCameraView.setVideoCodec(VideoCodec.DEVICE_DEFAULT);
-        mCameraView.setAutoFocusMarker(new DefaultAutoFocusMarker());
+//
+//        mCameraView.setPlaySounds(true);
+//        mCameraView.setAudioCodec(AudioCodec.DEVICE_DEFAULT);
+//        mCameraView.setVideoCodec(VideoCodec.DEVICE_DEFAULT);
+//        mCameraView.setUseDeviceOrientation(true);
+//        mCameraView.setFrameProcessingFormat();
+//        mCameraView.setFrameProcessingFormat();
+//        mCameraView.setAutoFocusMarker(new DefaultAutoFocusMarker());
         // 修复拍照拍视频切换时预览尺寸拉伸的问题
         mCameraView.setSnapshotMaxHeight(2160);
         mCameraView.setSnapshotMaxWidth(1080);
@@ -208,6 +217,7 @@ public class CustomCameraView extends FrameLayout {
                 }
                 mCaptureLayout.startTypeBtnAnimator();
                 mTextureView.setVisibility(View.VISIBLE);
+//                startVideoViewPlay(videoFile);
                 if (mTextureView.isAvailable()) {
                     startVideoPlay(videoFile, () ->
                             mCameraView.setVisibility(View.GONE)
@@ -246,31 +256,30 @@ public class CustomCameraView extends FrameLayout {
             @Override
             public void takePictures() {
                 mSwitchCamera.setVisibility(INVISIBLE);
-                mFlashLamp.setVisibility(INVISIBLE);
+//                mFlashLamp.setVisibility(INVISIBLE);
                 mCameraView.setMode(Mode.PICTURE);
 //                mCameraView.takePicture();
-                mCameraView.postDelayed(() -> mCameraView.takePicture(), 100);
+                mCameraView.takePictureSnapshot();
             }
 
             @Override
             public void recordStart() {
                 mSwitchCamera.setVisibility(INVISIBLE);
-                mFlashLamp.setVisibility(INVISIBLE);
+//                mFlashLamp.setVisibility(INVISIBLE);
                 mCameraView.setMode(Mode.VIDEO);
 
 //                if (mCameraView.isTakingVideo()) {
 //                    mCameraView.stopVideo();
 //                }
-                //mCameraView.takeVideoSnapshot(initStartRecordingPath(mContext));
-                mCameraView.postDelayed(() -> mCameraView.takeVideo(initStartRecordingPath(mContext)), 100);
-//                mCameraView.takeVideo(initStartRecordingPath(mContext));
+//                mCameraView.takeVideoSnapshot(initStartRecordingPath(mContext));
+                mCameraView.postDelayed(() -> mCameraView.takeVideoSnapshot(initStartRecordingPath(mContext)), 100);
             }
 
             @Override
             public void recordShort(final long time) {
                 recordTime = time;
                 mSwitchCamera.setVisibility(VISIBLE);
-                mFlashLamp.setVisibility(VISIBLE);
+//                mFlashLamp.setVisibility(VISIBLE);
                 mCaptureLayout.resetCaptureLayout();
                 mCaptureLayout.setTextWithAnimation("录制时间过短");
                 mCameraView.stopVideo();
@@ -452,10 +461,30 @@ public class CustomCameraView extends FrameLayout {
             }
         }
         mSwitchCamera.setVisibility(VISIBLE);
-        mFlashLamp.setVisibility(VISIBLE);
+//        mFlashLamp.setVisibility(VISIBLE);
         mCameraView.setVisibility(View.VISIBLE);
         mCaptureLayout.resetCaptureLayout();
     }
+
+//    private void startVideoViewPlay(File file) {
+//        MediaController controller = new MediaController(mContext);
+//        controller.setAnchorView(mTextureView);
+//        controller.setMediaPlayer(mTextureView);
+//        mTextureView.setMediaController(controller);
+//        mTextureView.setVideoURI(Uri.fromFile(file));
+//        mTextureView.setOnPreparedListener(mp -> {
+//            mp.setLooping(true);
+//            ViewGroup.LayoutParams lp = mTextureView.getLayoutParams();
+//            float videoWidth = mp.getVideoWidth();
+//            float videoHeight = mp.getVideoHeight();
+//            float viewWidth = mTextureView.getWidth();
+//            lp.height = (int) (viewWidth * (videoHeight / videoWidth));
+//            mTextureView.setLayoutParams(lp);
+//            if (!mTextureView.isPlaying()) {
+//                mTextureView.start();
+//            }
+//        });
+//    }
 
     /**
      * 开始循环播放视频
@@ -473,7 +502,6 @@ public class CustomCameraView extends FrameLayout {
             mMediaPlayer.setLooping(true);
             mMediaPlayer.setOnPreparedListener(mp -> {
                 mp.start();
-
                 float ratio = mp.getVideoWidth() * 1f / mp.getVideoHeight();
                 int width1 = mTextureView.getWidth();
                 ViewGroup.LayoutParams layoutParams = mTextureView.getLayoutParams();
