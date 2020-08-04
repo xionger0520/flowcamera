@@ -157,6 +157,7 @@ public class CustomCameraView extends FrameLayout {
 //        mCameraView.setUseDeviceOrientation(true);
 //        mCameraView.setFrameProcessingFormat();
 //        mCameraView.setFrameProcessingFormat();
+        mCameraView.setAutoFocusResetDelay(0);
 //        mCameraView.setAutoFocusMarker(new DefaultAutoFocusMarker());
         // 修复拍照拍视频切换时预览尺寸拉伸的问题
         mCameraView.setSnapshotMaxHeight(2160);

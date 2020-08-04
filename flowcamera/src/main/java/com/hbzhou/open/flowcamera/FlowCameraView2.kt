@@ -1,11 +1,9 @@
 package com.hbzhou.open.flowcamera
 
-import VideoHandle.EpEditor
-import VideoHandle.EpVideo
-import VideoHandle.OnEditorListener
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.Matrix
 import android.graphics.SurfaceTexture
 import android.hardware.display.DisplayManager
 import android.media.MediaPlayer
@@ -24,7 +22,6 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.camera.core.*
-import androidx.camera.core.impl.CaptureConfig
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
@@ -259,24 +256,24 @@ class FlowCameraView2 : FrameLayout {
 
                                 // Implicit broadcasts will be ignored for devices running API level >= 24
                                 // so if you only target API level 24+ you can remove this statement
-                                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-                                    mContext?.sendBroadcast(
-                                        Intent(android.hardware.Camera.ACTION_NEW_PICTURE, savedUri)
-                                    )
-                                }
-
-                                // If the folder selected is an external media directory, this is
-                                // unnecessary but otherwise other apps will not be able to access our
-                                // images unless we scan them using [MediaScannerConnection]
-                                val mimeType = MimeTypeMap.getSingleton()
-                                    .getMimeTypeFromExtension(savedUri.toFile().extension)
-                                MediaScannerConnection.scanFile(
-                                    context,
-                                    arrayOf(savedUri.toFile().absolutePath),
-                                    arrayOf(mimeType)
-                                ) { _, uri ->
-                                    Log.d(TAG, "Image capture scanned into media store: $uri")
-                                }
+//                                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+//                                    mContext?.sendBroadcast(
+//                                        Intent(android.hardware.Camera.ACTION_NEW_PICTURE, savedUri)
+//                                    )
+//                                }
+//
+//                                // If the folder selected is an external media directory, this is
+//                                // unnecessary but otherwise other apps will not be able to access our
+//                                // images unless we scan them using [MediaScannerConnection]
+//                                val mimeType = MimeTypeMap.getSingleton()
+//                                    .getMimeTypeFromExtension(savedUri.toFile().extension)
+//                                MediaScannerConnection.scanFile(
+//                                    context,
+//                                    arrayOf(savedUri.toFile().absolutePath),
+//                                    arrayOf(mimeType)
+//                                ) { _, uri ->
+//                                    Log.d(TAG, "Image capture scanned into media store: $uri")
+//                                }
                             }
                         })
                 }
@@ -320,52 +317,56 @@ class FlowCameraView2 : FrameLayout {
 //                                EpEditor.exec(epVideo, outputOption, object : OnEditorListener {
 //                                    override fun onSuccess() {
 
-                                        mTextureView?.post {
-                                            mTextureView?.visibility = View.VISIBLE
-                                            mCaptureLayout?.startTypeBtnAnimator()
-                                            if (mTextureView!!.isAvailable) {
+                                mTextureView?.post {
+                                    mTextureView?.visibility = View.VISIBLE
+                                    mCaptureLayout?.startTypeBtnAnimator()
+
+                                    transformsTextureView(mTextureView!!)
+
+                                    if (mTextureView!!.isAvailable) {
+                                        startVideoPlay(
+                                            videoFile!!,
+                                            object : OnVideoPlayPrepareListener {
+                                                override fun onPrepared() {
+                                                    viewFinder.visibility = View.GONE
+                                                }
+                                            }
+                                        )
+                                    } else {
+                                        mTextureView?.surfaceTextureListener = object :
+                                            SurfaceTextureListener {
+                                            override fun onSurfaceTextureAvailable(
+                                                surface: SurfaceTexture,
+                                                width: Int,
+                                                height: Int
+                                            ) {
+
                                                 startVideoPlay(
                                                     videoFile!!,
                                                     object : OnVideoPlayPrepareListener {
                                                         override fun onPrepared() {
-                                                            viewFinder.visibility = View.GONE
+                                                            viewFinder.visibility =
+                                                                View.GONE
                                                         }
                                                     }
                                                 )
-                                            } else {
-                                                mTextureView?.surfaceTextureListener = object :
-                                                    SurfaceTextureListener {
-                                                    override fun onSurfaceTextureAvailable(
-                                                        surface: SurfaceTexture,
-                                                        width: Int,
-                                                        height: Int
-                                                    ) {
-                                                        startVideoPlay(
-                                                            videoFile!!,
-                                                            object : OnVideoPlayPrepareListener {
-                                                                override fun onPrepared() {
-                                                                    viewFinder.visibility =
-                                                                        View.GONE
-                                                                }
-                                                            }
-                                                        )
-                                                    }
-
-                                                    override fun onSurfaceTextureSizeChanged(
-                                                        surface: SurfaceTexture,
-                                                        width: Int,
-                                                        height: Int
-                                                    ) {
-                                                    }
-
-                                                    override fun onSurfaceTextureDestroyed(surface: SurfaceTexture): Boolean {
-                                                        return false
-                                                    }
-
-                                                    override fun onSurfaceTextureUpdated(surface: SurfaceTexture) {}
-                                                }
                                             }
+
+                                            override fun onSurfaceTextureSizeChanged(
+                                                surface: SurfaceTexture,
+                                                width: Int,
+                                                height: Int
+                                            ) {
+                                            }
+
+                                            override fun onSurfaceTextureDestroyed(surface: SurfaceTexture): Boolean {
+                                                return false
+                                            }
+
+                                            override fun onSurfaceTextureUpdated(surface: SurfaceTexture) {}
                                         }
+                                    }
+                                }
 //                                    }
 //
 //                                    override fun onFailure() {
@@ -433,6 +434,28 @@ class FlowCameraView2 : FrameLayout {
         }
     }
 
+    // 自拍时 左右翻转预览视频
+    private fun transformsTextureView(textureView: TextureView) {
+        val transform = Matrix()
+        val metrics = DisplayMetrics().also { viewFinder.display.getRealMetrics(it) }
+        if (lensFacing == CameraSelector.LENS_FACING_FRONT) {
+            transform.postScale(
+                -1f,
+                1f,
+                1f * metrics.widthPixels / 2,
+                1f * metrics.heightPixels / 2
+            )
+        } else {
+            transform.postScale(
+                1f,
+                1f,
+                1f * metrics.widthPixels / 2,
+                1f * metrics.heightPixels / 2
+            )
+        }
+        textureView.setTransform(transform)
+    }
+
     /** Enabled or disabled a button to switch cameras depending on the available cameras */
     private fun updateCameraSwitchButton() {
         try {
@@ -464,6 +487,7 @@ class FlowCameraView2 : FrameLayout {
 
         // Preview
         preview = Preview.Builder()
+            .setCameraSelector(cameraSelector)
             // We request aspect ratio but no resolution
             .setTargetAspectRatio(screenAspectRatio)
             // Set initial target rotation
@@ -485,7 +509,6 @@ class FlowCameraView2 : FrameLayout {
         videoCapture = VideoCapture.Builder()
             .setCameraSelector(cameraSelector)
 //            .setDefaultCaptureConfig()
-            .setDefaultCaptureConfig(CaptureConfig.defaultEmptyCaptureConfig())
 //            .setCameraSelector(cameraSelector)
             // We request aspect ratio but no resolution to match preview config, but letting
             // CameraX optimize for whatever specific resolution best fits our use cases

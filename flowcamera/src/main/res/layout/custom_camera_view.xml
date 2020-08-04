@@ -14,7 +14,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:cameraAudio="on"
-            app:cameraAutoFocusMarker="@string/cameraview_default_autofocus_marker"
             app:cameraEngine="camera2"
             app:cameraExperimental="true"
             app:cameraFacing="back"

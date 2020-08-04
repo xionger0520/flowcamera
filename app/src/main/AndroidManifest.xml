@@ -27,6 +27,7 @@
             android:name="com.hbzhou.open.camera.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="fullUser"
+            android:hardwareAccelerated="true"
             android:theme="@style/AppTheme" />
 
         <activity
