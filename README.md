@@ -73,18 +73,7 @@ android {
 ```
 ### 开始使用
 ```xml
-Application中实现此接口
 
-若使用CustomCameraView 不需要此配置
-class MyApplication : Application(), CameraXConfig.Provider {
-    override fun onCreate() {
-        super.onCreate()
-    }
-
-    override fun getCameraXConfig(): CameraXConfig {
-        return Camera2Config.defaultConfig()
-    }
-}
 在fragment或者activity调用 Android6.0以上系统需要自行动态申请 存储 相机和麦克风权限
 
 使用CustomCameraView按照如下步骤配置 
