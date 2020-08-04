@@ -487,7 +487,7 @@ class FlowCameraView2 : FrameLayout {
 
         // Preview
         preview = Preview.Builder()
-            .setCameraSelector(cameraSelector)
+//            .setCameraSelector(cameraSelector)
             // We request aspect ratio but no resolution
             .setTargetAspectRatio(screenAspectRatio)
             // Set initial target rotation
@@ -507,7 +507,7 @@ class FlowCameraView2 : FrameLayout {
 
 
         videoCapture = VideoCapture.Builder()
-            .setCameraSelector(cameraSelector)
+//            .setCameraSelector(cameraSelector)
 //            .setDefaultCaptureConfig()
 //            .setCameraSelector(cameraSelector)
             // We request aspect ratio but no resolution to match preview config, but letting

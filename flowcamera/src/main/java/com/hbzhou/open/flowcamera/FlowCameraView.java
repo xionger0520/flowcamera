@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
+import android.graphics.Matrix;
 import android.graphics.SurfaceTexture;
 import android.media.MediaPlayer;
 import android.media.MediaScannerConnection;
@@ -42,6 +43,7 @@ import com.hbzhou.open.flowcamera.listener.FlowCameraListener;
 import com.hbzhou.open.flowcamera.listener.OnVideoPlayPrepareListener;
 import com.hbzhou.open.flowcamera.listener.TypeListener;
 import com.hbzhou.open.flowcamera.util.LogUtil;
+import com.hbzhou.open.flowcamera.util.ScreenUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -148,7 +150,8 @@ public class FlowCameraView extends FrameLayout {
                 OutputFileOptions.Builder outputFileOptions = new ImageCapture.OutputFileOptions.Builder(photoFile = initTakePicPath(mContext));
                 ImageCapture.Metadata metadata = new ImageCapture.Metadata();
                 metadata.setReversedHorizontal(CameraSelector.LENS_FACING_FRONT == lensFacing);
-                outputFileOptions.setMetadata(metadata);;
+                outputFileOptions.setMetadata(metadata);
+                ;
 
                 //测试新版本 CameraView
                 mVideoView.takePicture(outputFileOptions.build(), ContextCompat.getMainExecutor(mContext), new ImageCapture.OnImageSavedCallback() {
@@ -192,6 +195,7 @@ public class FlowCameraView extends FrameLayout {
                         }
                         mTextureView.setVisibility(View.VISIBLE);
                         mCaptureLayout.startTypeBtnAnimator();
+                        transformsTextureView(mTextureView);
                         if (mTextureView.isAvailable()) {
                             startVideoPlay(videoFile, () ->
                                     mVideoView.setVisibility(View.GONE)
@@ -291,6 +295,27 @@ public class FlowCameraView extends FrameLayout {
                 leftClickListener.onClick();
             }
         });
+    }
+
+    /**
+     * 预览自拍视频时 旋转TextureView 解决左右镜像的问题
+     *
+     * @param textureView
+     */
+    private void transformsTextureView(TextureView textureView) {
+        Matrix matrix = new Matrix();
+        int screenHeight = ScreenUtils.getScreenHeight(mContext);
+        int screenWidth = ScreenUtils.getScreenWidth(mContext);
+        int lensFacing = 1;
+        if (mVideoView.getCameraLensFacing() != null) {
+            lensFacing = mVideoView.getCameraLensFacing();
+        }
+        if (lensFacing == CameraSelector.LENS_FACING_FRONT) {
+            matrix.postScale(-1, 1, 1f * screenWidth / 2, 1f * screenHeight / 2);
+        } else {
+            matrix.postScale(1, 1, 1f * screenWidth / 2, 1f * screenHeight / 2);
+        }
+        textureView.setTransform(matrix);
     }
 
     /**
@@ -422,6 +447,7 @@ public class FlowCameraView extends FrameLayout {
             mMediaPlayer.setLooping(true);
             mMediaPlayer.setOnPreparedListener(mp -> {
                 mp.start();
+
                 float ratio = mp.getVideoWidth() * 1f / mp.getVideoHeight();
                 int width1 = mTextureView.getWidth();
                 ViewGroup.LayoutParams layoutParams = mTextureView.getLayoutParams();
