@@ -151,7 +151,6 @@ public class FlowCameraView extends FrameLayout {
                 ImageCapture.Metadata metadata = new ImageCapture.Metadata();
                 metadata.setReversedHorizontal(CameraSelector.LENS_FACING_FRONT == lensFacing);
                 outputFileOptions.setMetadata(metadata);
-                ;
 
                 //测试新版本 CameraView
                 mVideoView.takePicture(outputFileOptions.build(), ContextCompat.getMainExecutor(mContext), new ImageCapture.OnImageSavedCallback() {
@@ -186,10 +185,9 @@ public class FlowCameraView extends FrameLayout {
             public void recordStart() {
                 mSwitchCamera.setVisibility(INVISIBLE);
                 mFlashLamp.setVisibility(INVISIBLE);
-                mVideoView.startRecording(initStartRecordingPath(mContext), ContextCompat.getMainExecutor(mContext), new VideoCapture.OnVideoSavedCallback() {
+                mVideoView.startRecording(videoFile = initStartRecordingPath(mContext), ContextCompat.getMainExecutor(mContext), new VideoCapture.OnVideoSavedCallback() {
                     @Override
-                    public void onVideoSaved(@NonNull File file) {
-                        videoFile = file;
+                    public void onVideoSaved(@NonNull VideoCapture.OutputFileResults outputFileResults) {
                         if (recordTime < 1500 && videoFile.exists() && videoFile.delete()) {
                             return;
                         }

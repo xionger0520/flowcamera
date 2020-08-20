@@ -21,6 +21,7 @@ import android.webkit.MimeTypeMap
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.annotation.NonNull
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
@@ -297,13 +298,26 @@ class FlowCameraView2 : FrameLayout {
                 videoCapture?.let {
                     // Create output file to hold the image
                     val videoFile1 = createFile(outputDirectory, FILENAME, VIDEO_EXTENSION)
+
+                    // Setup image capture metadata
+                    val metadata = VideoCapture.Metadata().apply {
+
+                        // Mirror image when using the front camera
+                        //rever = lensFacing == CameraSelector.LENS_FACING_FRONT
+                    }
+
+                    // Create output options object which contains file + metadata
+                    val outputOptions = VideoCapture.OutputFileOptions.Builder(videoFile1)
+                        .setMetadata(metadata)
+                        .build()
+
                     videoCapture?.startRecording(
-                        videoFile1,
+                        outputOptions,
                         cameraExecutor,
                         object : VideoCapture.OnVideoSavedCallback {
-                            override fun onVideoSaved(file: File) {
-                                videoFile = file
-                                if (recordTime < 1500 && file.exists() && file.delete()) {
+                            override fun onVideoSaved(@NonNull outputFileResults: VideoCapture.OutputFileResults) {
+                                videoFile = videoFile1
+                                if (recordTime < 1500 && videoFile!!.exists() && videoFile!!.delete()) {
                                     return
                                 }
 
