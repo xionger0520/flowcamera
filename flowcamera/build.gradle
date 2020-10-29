@@ -32,9 +32,9 @@ dependencies {
     api 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.5'
     api 'androidx.core:core-ktx:1.3.2'
     // CameraX core library
-    def camerax_version = "1.0.0-beta10"
+    def camerax_version = "1.0.0-beta11"
     // CameraX view library
-    def camerax_view_version = "1.0.0-alpha17"
+    def camerax_view_version = "1.0.0-alpha18"
     api "androidx.camera:camera-core:$camerax_version"
     // If you want to use Camera2 extensions
     api "androidx.camera:camera-camera2:$camerax_version"
