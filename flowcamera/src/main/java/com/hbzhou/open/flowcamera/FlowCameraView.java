@@ -1,6 +1,7 @@
 package com.hbzhou.open.flowcamera;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
@@ -8,10 +9,7 @@ import android.graphics.Matrix;
 import android.graphics.SurfaceTexture;
 import android.media.MediaPlayer;
 import android.media.MediaScannerConnection;
-import android.net.Uri;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Surface;
 import android.view.TextureView;
@@ -28,10 +26,9 @@ import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageCapture;
 import androidx.camera.core.ImageCapture.OutputFileOptions;
 import androidx.camera.core.ImageCaptureException;
-import androidx.camera.core.ImageProxy;
-import androidx.camera.core.VideoCapture;
-import androidx.camera.core.impl.VideoCaptureConfig;
 import androidx.camera.view.CameraView;
+import androidx.camera.view.video.OnVideoSavedCallback;
+import androidx.camera.view.video.OutputFileResults;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LifecycleEventObserver;
@@ -109,6 +106,7 @@ public class FlowCameraView extends FrameLayout {
         initView();
     }
 
+    @SuppressLint("UnsafeExperimentalUsageError")
     public void initView() {
         setWillNotDraw(false);
         View view = LayoutInflater.from(mContext).inflate(R.layout.flow_camera_view, this);
@@ -181,13 +179,15 @@ public class FlowCameraView extends FrameLayout {
                 });
             }
 
+            @SuppressLint("UnsafeExperimentalUsageError")
             @Override
             public void recordStart() {
                 mSwitchCamera.setVisibility(INVISIBLE);
                 mFlashLamp.setVisibility(INVISIBLE);
-                mVideoView.startRecording(videoFile = initStartRecordingPath(mContext), ContextCompat.getMainExecutor(mContext), new VideoCapture.OnVideoSavedCallback() {
+
+                mVideoView.startRecording(videoFile = initStartRecordingPath(mContext), ContextCompat.getMainExecutor(mContext), new OnVideoSavedCallback() {
                     @Override
-                    public void onVideoSaved(@NonNull VideoCapture.OutputFileResults outputFileResults) {
+                    public void onVideoSaved(@NonNull OutputFileResults outputFileResults) {
                         if (recordTime < 1500 && videoFile.exists() && videoFile.delete()) {
                             return;
                         }
@@ -223,7 +223,6 @@ public class FlowCameraView extends FrameLayout {
                                 }
                             });
                         }
-
                     }
 
                     @Override
@@ -233,6 +232,55 @@ public class FlowCameraView extends FrameLayout {
                         }
                     }
                 });
+
+//                mVideoView.startRecording(videoFile = initStartRecordingPath(mContext), ContextCompat.getMainExecutor(mContext), new VideoCapture.OnVideoSavedCallback() {
+//                    @Override
+//                    public void onVideoSaved(@NonNull VideoCapture.OutputFileResults outputFileResults) {
+//                        if (recordTime < 1500 && videoFile.exists() && videoFile.delete()) {
+//                            return;
+//                        }
+//                        mTextureView.setVisibility(View.VISIBLE);
+//                        mCaptureLayout.startTypeBtnAnimator();
+//                        transformsTextureView(mTextureView);
+//                        if (mTextureView.isAvailable()) {
+//                            startVideoPlay(videoFile, () ->
+//                                    mVideoView.setVisibility(View.GONE)
+//                            );
+//                        } else {
+//                            mTextureView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
+//                                @Override
+//                                public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
+//                                    startVideoPlay(videoFile, () ->
+//                                            mVideoView.setVisibility(View.GONE)
+//                                    );
+//                                }
+//
+//                                @Override
+//                                public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
+//
+//                                }
+//
+//                                @Override
+//                                public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
+//                                    return false;
+//                                }
+//
+//                                @Override
+//                                public void onSurfaceTextureUpdated(SurfaceTexture surface) {
+//
+//                                }
+//                            });
+//                        }
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(int videoCaptureError, @NonNull String message, @Nullable Throwable cause) {
+//                        if (flowCameraListener != null) {
+//                            flowCameraListener.onError(videoCaptureError, message, cause);
+//                        }
+//                    }
+//                });
             }
 
             @Override
@@ -412,6 +460,7 @@ public class FlowCameraView extends FrameLayout {
     /**
      * 重置状态
      */
+    @SuppressLint("UnsafeExperimentalUsageError")
     private void resetState() {
         if (mVideoView.isRecording()) {
             mVideoView.stopRecording();
