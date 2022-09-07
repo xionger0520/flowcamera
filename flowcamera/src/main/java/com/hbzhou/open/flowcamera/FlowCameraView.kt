@@ -473,10 +473,7 @@ class FlowCameraView : FrameLayout {
      *
      * @param videoFile
      */
-    private fun startVideoPlay(
-        videoFile: File,
-        onVideoPlayPrepareListener: OnVideoPlayPrepareListener?,
-    ) {
+    private fun startVideoPlay(videoFile: File, onVideoPlayPrepareListener: OnVideoPlayPrepareListener?) {
         try {
             mMediaPlayer?.stop()
             mMediaPlayer?.release()
@@ -532,23 +529,6 @@ class FlowCameraView : FrameLayout {
             null
         } finally {
             cursor?.close()
-        }
-    }
-
-    /**
-     * A helper function to retrieve the captured file size.
-     */
-    private fun getFileSizeFromUri(contentUri: Uri): Long? {
-        val cursor = mContext!!
-            .contentResolver
-            .query(contentUri, null, null, null, null)
-            ?: return null
-
-        val sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE)
-        cursor.moveToFirst()
-
-        cursor.use {
-            return it.getLong(sizeIndex)
         }
     }
 
@@ -617,14 +597,6 @@ class FlowCameraView : FrameLayout {
             updateCameraSwitchButton()
             bindCameraUseCases()
         }
-    }
-
-    private fun aspectRatio(width: Int, height: Int): Int {
-        val previewRatio = max(width, height).toDouble() / min(width, height)
-        if (abs(previewRatio - RATIO_4_3_VALUE) <= abs(previewRatio - RATIO_16_9_VALUE)) {
-            return AspectRatio.RATIO_4_3
-        }
-        return AspectRatio.RATIO_16_9
     }
 
     private suspend fun bindCameraUseCases() {
