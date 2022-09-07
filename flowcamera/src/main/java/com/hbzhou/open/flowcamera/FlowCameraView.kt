@@ -10,7 +10,6 @@ import android.media.MediaPlayer
 import android.media.MediaScannerConnection
 import android.net.Uri
 import android.provider.MediaStore
-import android.provider.OpenableColumns
 import android.util.AttributeSet
 import android.util.Log
 import android.view.Surface
@@ -45,9 +44,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
-import kotlin.math.abs
-import kotlin.math.max
-import kotlin.math.min
 
 
 /**
