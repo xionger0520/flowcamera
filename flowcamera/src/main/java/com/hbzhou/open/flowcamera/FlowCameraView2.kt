@@ -254,27 +254,6 @@ class FlowCameraView2 : FrameLayout {
                                     mPhoto?.visibility = View.VISIBLE
                                     mCaptureLayout?.startTypeBtnAnimator()
                                 }
-
-                                // Implicit broadcasts will be ignored for devices running API level >= 24
-                                // so if you only target API level 24+ you can remove this statement
-//                                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-//                                    mContext?.sendBroadcast(
-//                                        Intent(android.hardware.Camera.ACTION_NEW_PICTURE, savedUri)
-//                                    )
-//                                }
-//
-//                                // If the folder selected is an external media directory, this is
-//                                // unnecessary but otherwise other apps will not be able to access our
-//                                // images unless we scan them using [MediaScannerConnection]
-//                                val mimeType = MimeTypeMap.getSingleton()
-//                                    .getMimeTypeFromExtension(savedUri.toFile().extension)
-//                                MediaScannerConnection.scanFile(
-//                                    context,
-//                                    arrayOf(savedUri.toFile().absolutePath),
-//                                    arrayOf(mimeType)
-//                                ) { _, uri ->
-//                                    Log.d(TAG, "Image capture scanned into media store: $uri")
-//                                }
                             }
                         })
                 }
@@ -290,7 +269,7 @@ class FlowCameraView2 : FrameLayout {
                 videoCapture?.stopRecording()
             }
 
-            @SuppressLint("RestrictedApi")
+            @SuppressLint("RestrictedApi", "MissingPermission")
             override fun recordStart() {
                 mSwitchCamera?.visibility = View.INVISIBLE
                 mFlashLamp?.visibility = View.INVISIBLE
@@ -381,16 +360,6 @@ class FlowCameraView2 : FrameLayout {
                                         }
                                     }
                                 }
-//                                    }
-//
-//                                    override fun onFailure() {
-//
-//                                    }
-//
-//                                    override fun onProgress(progress: Float) {
-//
-//                                    }
-//                                })
 
 
                             }
@@ -601,7 +570,7 @@ class FlowCameraView2 : FrameLayout {
 
             // Build and bind the camera use cases
             bindCameraUseCases()
-        }, ContextCompat.getMainExecutor(mContext))
+        }, ContextCompat.getMainExecutor(mContext!!))
     }
 
     /** Returns true if the device has an available back camera. False otherwise */

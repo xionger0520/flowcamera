@@ -19,10 +19,6 @@ import com.hbzhou.open.flowcamera.listener.ClickListener;
 import com.hbzhou.open.flowcamera.listener.ReturnListener;
 import com.hbzhou.open.flowcamera.listener.TypeListener;
 
-import static com.hbzhou.open.flowcamera.FlowCameraView.BUTTON_STATE_BOTH;
-import static com.hbzhou.open.flowcamera.FlowCameraView.BUTTON_STATE_ONLY_CAPTURE;
-import static com.hbzhou.open.flowcamera.FlowCameraView.BUTTON_STATE_ONLY_RECORDER;
-
 
 /**
  * author hbzhou
@@ -30,6 +26,11 @@ import static com.hbzhou.open.flowcamera.FlowCameraView.BUTTON_STATE_ONLY_RECORD
  */
 
 public class CaptureLayout extends FrameLayout {
+
+    // 选择拍照 拍视频 或者都有
+    private final int BUTTON_STATE_ONLY_CAPTURE = 0x101; //只能拍照
+    private final int BUTTON_STATE_ONLY_RECORDER = 0x102; //只能录像
+    private final int BUTTON_STATE_BOTH = 0x103;
 
     private CaptureListener captureLisenter;    //拍照按钮监听
     private TypeListener typeLisenter;          //拍照或录制后接结果按钮监听
