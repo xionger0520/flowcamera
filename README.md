@@ -57,14 +57,7 @@ android {
   
 ### 布局文件中添加
 ```xml
- 
-基于Camera2 Api的Custom版本，拍照速度更快
-<com.hbzhou.open.flowcamera.CustomCameraView
-        android:id="@+id/customCamera"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
-基于CameraX库flow版本,兼容性稳定性进一步增强
+
 <com.hbzhou.open.flowcamera.FlowCameraView
         android:id="@+id/flowCamera"
         android:layout_width="match_parent"
@@ -76,9 +69,9 @@ android {
 
 在fragment或者activity调用 Android6.0以上系统需要自行动态申请 存储 相机和麦克风权限
 
-使用CustomCameraView按照如下步骤配置 
+按照如下步骤配置 
 
-val flowCamera = findViewById<CustomCameraView>(R.id.flowCamera)
+val flowCamera = findViewById<FlowCameraView>(R.id.flowCamera)
 	// 绑定生命周期 您就不用关心Camera的开启和关闭了 不绑定无法预览
         flowCamera.setBindToLifecycle(this)
         // 设置白平衡模式

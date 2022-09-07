@@ -55,7 +55,7 @@ import kotlin.math.min
  * @date 2022/9/7
  * @email 1004695331@qq.com
  */
-class FlowCameraView3 : FrameLayout {
+class FlowCameraView : FrameLayout {
     //闪关灯状态
     private val TYPE_FLASH_AUTO = 0x021
     private val TYPE_FLASH_ON = 0x022
@@ -122,7 +122,7 @@ class FlowCameraView3 : FrameLayout {
     companion object {
         // default Quality selection if no input from UI
         const val DEFAULT_QUALITY_IDX = 0
-        val TAG: String = FlowCameraView3::class.java.simpleName
+        val TAG: String = FlowCameraView::class.java.simpleName
         private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
 
         private const val FILENAME = "yyyy-MM-dd-HH-mm-ss-SSS"
@@ -563,7 +563,7 @@ class FlowCameraView3 : FrameLayout {
 
         @SuppressLint("RestrictedApi")
         override fun onDisplayChanged(displayId: Int) = container.let { view ->
-            if (displayId == this@FlowCameraView3.displayId) {
+            if (displayId == this@FlowCameraView.displayId) {
 
                 imageCapture?.targetRotation = view.display.rotation
                 imageAnalyzer?.targetRotation = view.display.rotation
