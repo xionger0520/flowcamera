@@ -637,21 +637,6 @@ class FlowCameraView3 : FrameLayout {
         val quality = cameraCapabilities[cameraIndex].qualities[qualityIndex]
         val qualitySelector = QualitySelector.from(quality)
 
-        // Get screen metrics used to setup camera for full screen resolution
-//        val metrics = DisplayMetrics().also { viewFinder.display.getRealMetrics(it) }
-//        Log.d(TAG, "Screen metrics: ${metrics.widthPixels} x ${metrics.heightPixels}")
-//
-//        val screenAspectRatio = aspectRatio(metrics.widthPixels, metrics.heightPixels)
-//        Log.d(TAG, "Preview aspect ratio: $screenAspectRatio")
-
-//        val rotation = viewFinder.display.rotation
-
-//        viewFinder.updateLayoutParams<LayoutParams> {
-//            val orientation = mContext!!.resources.configuration.orientation
-//            dimensionRatio = quality.getAspectRatioString(quality,
-//                (orientation == Configuration.ORIENTATION_PORTRAIT))
-//        }
-
         val preview = Preview.Builder()
             .setTargetAspectRatio(quality.getAspectRatio(quality))
             .build().apply {
@@ -726,40 +711,13 @@ class FlowCameraView3 : FrameLayout {
         if (event !is VideoRecordEvent.Status)
             recordingState = event
 
-
         if (event is VideoRecordEvent.Finalize) {
-
-            Log.e(TAG, "event is VideoRecordEvent.Finalize___${event.outputResults.outputUri}")
             // display the captured video
             videoFile = getAbsolutePathFromUri(event.outputResults.outputUri)?.let { File(it) }
 
             startVideoPlayInit()
-
-            Log.e(TAG, "event is VideoRecordEvent.Finalize___${event.outputResults.outputUri}")
         }
     }
-
-//    private fun showVideo(uri: Uri) {
-//        val fileSize = getFileSizeFromUri(uri)
-//        if (fileSize == null || fileSize <= 0) {
-//            Log.e("VideoViewerFragment", "Failed to get recorded file size, could not be played!")
-//            return
-//        }
-//
-//        val filePath = getAbsolutePathFromUri(uri) ?: return
-//        val fileInfo = "FileSize: $fileSize\n $filePath"
-//        Log.i("VideoViewerFragment", fileInfo)
-//
-//        mediaController = null
-//        mediaController = MediaController(mContext, false)
-//        mediaController!!.visibility = View.GONE
-//        videoView!!.apply {
-//            setVideoPath(filePath)
-//            setMediaController(mediaController)
-//            requestFocus()
-//        }.start()
-//        mediaController!!.show(0)
-//    }
 
     /**
      * 重置状态
