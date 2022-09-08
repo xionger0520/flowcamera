@@ -112,12 +112,7 @@ val flowCamera = findViewById<FlowCameraView>(R.id.flowCamera)
 <img src="https://github.com/xionger0520/flowcamera/blob/master/assets/20191221222458.jpg" width="350"/><img src="https://github.com/xionger0520/flowcamera/blob/master/assets/20191221222518.jpg" width="350"/>
 
 
-
 ## 作者
-
-如果有其他复杂需求可付费定制
-
-wechat: zhouhaibin8357
 
 1004695331@qq.com
 
