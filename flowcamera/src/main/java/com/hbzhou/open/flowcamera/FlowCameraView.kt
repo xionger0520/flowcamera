@@ -27,8 +27,7 @@ import androidx.camera.view.PreviewView
 import androidx.concurrent.futures.await
 import androidx.core.content.ContextCompat
 import androidx.core.util.Consumer
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.*
 import com.bumptech.glide.Glide
 import com.hbzhou.open.flowcamera.listener.ClickListener
 import com.hbzhou.open.flowcamera.listener.FlowCameraListener
@@ -95,7 +94,6 @@ class FlowCameraView : FrameLayout {
     private var imageCapture: ImageCapture? = null
     private var imageAnalyzer: ImageAnalysis? = null
     private var cameraProvider: ProcessCameraProvider? = null
-    private var displayManager: DisplayManager? = null
     private var lifecycleOwner: LifecycleOwner? = null
 
     /** Blocking camera operations are performed using this executor */
@@ -114,6 +112,9 @@ class FlowCameraView : FrameLayout {
     private var qualityIndex = DEFAULT_QUALITY_IDX
     private val mainThreadExecutor by lazy { ContextCompat.getMainExecutor(mContext!!) }
     private var enumerationDeferred: Deferred<Unit>? = null
+    private val displayManager by lazy {
+        mContext?.getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
+    }
 
     companion object {
         // default Quality selection if no input from UI
@@ -205,11 +206,8 @@ class FlowCameraView : FrameLayout {
     }
 
     private fun initView() {
-        val view: View =
-            View.inflate(mContext, R.layout.flow_camera_view3, this)
+        val view: View = View.inflate(mContext, R.layout.flow_camera_view3, this)
         container = view as FrameLayout
-        displayManager = mContext?.getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
-
         mCaptureLayout = view.findViewById(R.id.capture_layout)
         mCaptureLayout?.setDuration(duration)
         mCaptureLayout?.setIconSrc(iconLeft, iconRight)
@@ -246,15 +244,6 @@ class FlowCameraView : FrameLayout {
         }
         // Preview 初始化
         viewFinder = view.findViewById(R.id.video_preview)
-
-        // Initialize our background executor
-        cameraExecutor = Executors.newSingleThreadExecutor()
-
-        // Every time the orientation of device changes, update rotation for use cases
-        displayManager?.registerDisplayListener(displayListener, null)
-
-        // Determine the output directory
-        outputDirectory = getOutputDirectory(mContext!!)
 
         // Wait for the views to be properly laid out
         viewFinder.post {
@@ -380,6 +369,7 @@ class FlowCameraView : FrameLayout {
     /** Enabled or disabled a button to switch cameras depending on the available cameras */
     private suspend fun updateCameraSwitchButton() {
         cameraProvider = ProcessCameraProvider.getInstance(mContext!!).await()
+        cameraProvider?.unbindAll()
         try {
             mSwitchCamera?.isEnabled = hasBackCamera() && hasFrontCamera()
         } catch (exception: CameraInfoUnavailableException) {
@@ -469,7 +459,10 @@ class FlowCameraView : FrameLayout {
      *
      * @param videoFile
      */
-    private fun startVideoPlay(videoFile: File, onVideoPlayPrepareListener: OnVideoPlayPrepareListener?) {
+    private fun startVideoPlay(
+        videoFile: File,
+        onVideoPlayPrepareListener: OnVideoPlayPrepareListener?,
+    ) {
         try {
             mMediaPlayer?.stop()
             mMediaPlayer?.release()
@@ -584,15 +577,38 @@ class FlowCameraView : FrameLayout {
 
     fun setBindToLifecycle(lifecycleOwner: LifecycleOwner) {
         this.lifecycleOwner = lifecycleOwner
-        initCamera()
-        lifecycleOwner.lifecycleScope.launch {
-            if (enumerationDeferred != null) {
-                enumerationDeferred!!.await()
-                enumerationDeferred = null
+
+        lifecycleOwner.lifecycle.addObserver(object : LifecycleEventObserver {
+            override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+                when (event) {
+                    Lifecycle.Event.ON_CREATE -> {
+                        initCamera()
+                        // Initialize our background executor
+                        cameraExecutor = Executors.newSingleThreadExecutor()
+
+                        // Every time the orientation of device changes, update rotation for use cases
+                        displayManager?.registerDisplayListener(displayListener, null)
+
+                        // Determine the output directory
+                        outputDirectory = getOutputDirectory(mContext!!)
+
+                        lifecycleOwner.lifecycleScope.launch {
+                            if (enumerationDeferred != null) {
+                                enumerationDeferred!!.await()
+                                enumerationDeferred = null
+                            }
+                            updateCameraSwitchButton()
+                            bindCameraUseCases()
+                        }
+                    }
+                    Lifecycle.Event.ON_DESTROY -> {
+                        displayManager?.unregisterDisplayListener(displayListener)
+                        cameraExecutor.shutdown()
+                    }
+                    else -> {}
+                }
             }
-            updateCameraSwitchButton()
-            bindCameraUseCases()
-        }
+        })
     }
 
     private suspend fun bindCameraUseCases() {
@@ -604,10 +620,13 @@ class FlowCameraView : FrameLayout {
         // supported, a valid qualitySelector will be created.
         val quality = cameraCapabilities[cameraIndex].qualities[qualityIndex]
         val qualitySelector = QualitySelector.from(quality)
+        val rotation = viewFinder.display.rotation;
 
         val preview = Preview.Builder()
             .setTargetAspectRatio(quality.getAspectRatio(quality))
-            .build().apply {
+            .setTargetRotation(rotation)
+            .build()
+            .apply {
                 setSurfaceProvider(viewFinder.surfaceProvider)
             }
 
@@ -619,7 +638,7 @@ class FlowCameraView : FrameLayout {
             .setTargetAspectRatio(quality.getAspectRatio(quality))
             // Set initial target rotation, we will have to call this again if rotation changes
             // during the lifecycle of this use case
-//            .setTargetRotation()
+            .setTargetRotation(rotation)
             .build()
 
         // build a recorder, which can:
@@ -628,7 +647,8 @@ class FlowCameraView : FrameLayout {
         val recorder = Recorder.Builder()
             .setQualitySelector(qualitySelector)
             .build()
-        videoCapture = VideoCapture.withOutput(recorder)
+        videoCapture = VideoCapture
+            .withOutput(recorder)
 
         try {
             cameraProvider.unbindAll()
