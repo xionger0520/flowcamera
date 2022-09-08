@@ -2,6 +2,7 @@
 
 [![API 21+](https://img.shields.io/badge/API-21%2B-green.svg)](https://jitpack.io/#xionger0520/flowcamera)
 [![](https://jitpack.io/v/xionger0520/flowcamera.svg)](https://jitpack.io/#xionger0520/flowcamera)
+[![GitHub license](https://img.shields.io/github/license/xionger0520/flowcamera)](https://github.com/xionger0520/flowcamera/blob/master/LICENSE)
 
 
 ## 仿微信拍照和拍小视频界面 使用最新的CameraX相机库
