@@ -686,8 +686,10 @@ class FlowCameraView : FrameLayout {
 
         // configure Recorder and Start recording to the mediaStoreOutput.
         currentRecording?.stop()
+        currentRecording = null
         currentRecording = videoCapture.output
             .prepareRecording(mContext!!, mediaStoreOutput)
+            .apply { withAudioEnabled() }
             .start(mainThreadExecutor, captureListener)
 
         Log.i(TAG, "Recording started")
