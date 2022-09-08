@@ -622,11 +622,11 @@ class FlowCameraView : FrameLayout {
         // supported, a valid qualitySelector will be created.
         val quality = cameraCapabilities[cameraIndex].qualities[qualityIndex]
         val qualitySelector = QualitySelector.from(quality)
-        val rotation = viewFinder.display.rotation;
+//        val rotation = viewFinder.display?.rotation
 
         val preview = Preview.Builder()
             .setTargetAspectRatio(quality.getAspectRatio(quality))
-            .setTargetRotation(rotation)
+//            .setTargetRotation(rotation)
             .build()
             .apply {
                 setSurfaceProvider(viewFinder.surfaceProvider)
@@ -640,7 +640,7 @@ class FlowCameraView : FrameLayout {
             .setTargetAspectRatio(quality.getAspectRatio(quality))
             // Set initial target rotation, we will have to call this again if rotation changes
             // during the lifecycle of this use case
-            .setTargetRotation(rotation)
+//            .setTargetRotation(rotation)
             .build()
 
         // build a recorder, which can:
