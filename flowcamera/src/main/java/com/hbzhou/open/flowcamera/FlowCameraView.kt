@@ -139,7 +139,9 @@ class FlowCameraView : FrameLayout {
     private fun getCameraSelector(idx: Int): CameraSelector {
         if (cameraCapabilities.size == 0) {
             Log.i(TAG, "Error: This device does not have any camera, bailing out")
-            throw Exception("Error: This device does not have any camera, bailing out")
+            flowCameraListener?.onError(0,
+                "Error: This device does not have any camera, bailing out",
+                null)
         }
         return (cameraCapabilities[idx % cameraCapabilities.size].camSelector)
     }
@@ -587,7 +589,7 @@ class FlowCameraView : FrameLayout {
                         cameraExecutor = Executors.newSingleThreadExecutor()
 
                         // Every time the orientation of device changes, update rotation for use cases
-                        displayManager?.registerDisplayListener(displayListener, null)
+                        displayManager.registerDisplayListener(displayListener, null)
 
                         // Determine the output directory
                         outputDirectory = getOutputDirectory(mContext!!)
@@ -602,7 +604,7 @@ class FlowCameraView : FrameLayout {
                         }
                     }
                     Lifecycle.Event.ON_DESTROY -> {
-                        displayManager?.unregisterDisplayListener(displayListener)
+                        displayManager.unregisterDisplayListener(displayListener)
                         cameraExecutor.shutdown()
                     }
                     else -> {}
@@ -698,7 +700,6 @@ class FlowCameraView : FrameLayout {
         // cache the recording state
         if (event !is VideoRecordEvent.Status)
             recordingState = event
-
         if (event is VideoRecordEvent.Finalize) {
             // display the captured video
             videoFile = getAbsolutePathFromUri(event.outputResults.outputUri)?.let { File(it) }
