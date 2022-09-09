@@ -1,8 +1,8 @@
 package com.hbzhou.open.camera
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.blankj.utilcode.util.ToastUtils
 import com.hbzhou.open.flowcamera.CustomCameraView.BUTTON_STATE_BOTH
 import com.hbzhou.open.flowcamera.FlowCameraView
 import com.hbzhou.open.flowcamera.listener.ClickListener
@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         flowCamera.setFlowCameraListener(object : FlowCameraListener {
             // 录制完成视频文件返回
             override fun recordSuccess(file: File) {
-                ToastUtils.showLong(file.absolutePath)
+                Toast.makeText(this@MainActivity, file.absolutePath, Toast.LENGTH_SHORT).show()
                 finish()
             }
 
@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
 
             // 拍照返回
             override fun captureSuccess(file: File) {
-                ToastUtils.showLong(file.absolutePath)
+                Toast.makeText(this@MainActivity, file.absolutePath, Toast.LENGTH_SHORT).show()
                 finish()
             }
         })

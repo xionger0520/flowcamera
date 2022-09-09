@@ -33,7 +33,8 @@ dependencies {
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    api project(':flowcamera')
+//    api project(':flowcamera')
+    implementation 'com.github.xionger0520:flowcamera:V1.2.0'
     // if u use AndroidX, use the following
-    implementation 'com.blankj:utilcodex:1.29.0'
+    implementation 'com.github.getActivity:XXPermissions:16.0'
 }
