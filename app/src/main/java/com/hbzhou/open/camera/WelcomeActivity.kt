@@ -23,7 +23,7 @@ class WelcomeActivity : AppCompatActivity() {
     private fun initPermission() {
         XXPermissions.with(this)
             .permission(Permission.RECORD_AUDIO)
-            .permission(Permission.WRITE_EXTERNAL_STORAGE)
+            .permission(Permission.MANAGE_EXTERNAL_STORAGE)
             .permission(Permission.CAMERA)
             // 设置权限请求拦截器（局部设置）
             //.interceptor(new PermissionInterceptor())
