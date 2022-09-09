@@ -1,6 +1,8 @@
 package com.hbzhou.open.flowcamera
 
 import android.annotation.SuppressLint
+import android.content.ContentResolver
+import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
@@ -9,6 +11,9 @@ import android.hardware.display.DisplayManager
 import android.media.MediaPlayer
 import android.media.MediaScannerConnection
 import android.net.Uri
+import android.os.Build
+import android.os.Build.VERSION_CODES.Q
+import android.provider.BaseColumns
 import android.provider.MediaStore
 import android.util.AttributeSet
 import android.util.Log
@@ -26,6 +31,7 @@ import androidx.camera.video.VideoCapture
 import androidx.camera.view.PreviewView
 import androidx.concurrent.futures.await
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.core.util.Consumer
 import androidx.lifecycle.*
 import com.bumptech.glide.Glide
@@ -514,9 +520,7 @@ class FlowCameraView : FrameLayout {
         } catch (e: RuntimeException) {
             Log.e("VideoViewerFragment", String.format(
                 "Failed in getting absolute path for Uri %s with Exception %s",
-                contentUri.toString(), e.toString()
-            )
-            )
+                contentUri.toString(), e.toString()))
             null
         } finally {
             cursor?.close()
@@ -716,11 +720,31 @@ class FlowCameraView : FrameLayout {
     @SuppressLint("RestrictedApi")
     private fun resetState() {
         currentRecording?.stop()
-        if (videoFile != null && videoFile!!.exists() && videoFile!!.delete()) {
-            LogUtil.e("videoFile is clear")
+        // 如果是删除视频文件  适配Android Q
+        if (videoFile != null && videoFile?.exists() == true) {
+
+            val isDeleted: Boolean
+
+            val uri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                FileProvider.getUriForFile(context,
+                    "${context.packageName}.fileProvider",
+                    videoFile!!)
+            } else {
+                Uri.fromFile(videoFile!!)
+            }
+
+            isDeleted = if (Build.VERSION.SDK_INT < Q) {
+                videoFile!!.delete()
+            } else {
+                context.contentResolver.delete(uri,
+                    "${MediaStore.Video.Media.DATA} = ?",
+                    arrayOf(videoFile?.name)) > 0
+            }
+
+            LogUtil.i("videoFile is deleted $isDeleted")
         }
         if (photoFile != null && photoFile!!.exists() && photoFile!!.delete()) {
-            LogUtil.e("photoFile is clear")
+            LogUtil.i("photoFile is clear")
         }
         mPhoto!!.visibility = View.INVISIBLE
         mSwitchCamera!!.visibility = View.VISIBLE
