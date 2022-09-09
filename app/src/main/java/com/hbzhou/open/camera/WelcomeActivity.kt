@@ -21,12 +21,9 @@ class WelcomeActivity : AppCompatActivity() {
     }
 
     private fun initPermission() {
-
         XXPermissions.with(this)
-            // 申请单个权限
             .permission(Permission.RECORD_AUDIO)
-            // 申请多个权限
-            .permission(Permission.MANAGE_EXTERNAL_STORAGE)
+            .permission(Permission.WRITE_EXTERNAL_STORAGE)
             .permission(Permission.CAMERA)
             // 设置权限请求拦截器（局部设置）
             //.interceptor(new PermissionInterceptor())
@@ -41,7 +38,7 @@ class WelcomeActivity : AppCompatActivity() {
                             Toast.LENGTH_SHORT).show()
                         return
                     }
-                    Toast.makeText(this@WelcomeActivity, "获取录音存储和麦克风权限成功!", Toast.LENGTH_SHORT)
+                    Toast.makeText(this@WelcomeActivity, "获取录音存储和相机权限成功!", Toast.LENGTH_SHORT)
                         .show()
                     startActivity(Intent(this@WelcomeActivity, MainActivity::class.java))
                 }
@@ -49,13 +46,13 @@ class WelcomeActivity : AppCompatActivity() {
                 override fun onDenied(permissions: MutableList<String>, never: Boolean) {
                     if (never) {
                         Toast.makeText(this@WelcomeActivity,
-                            "被永久拒绝授权，请手动授予录音存储和麦克风权限!",
+                            "被永久拒绝授权，请手动授予录音存储和相机权限!",
                             Toast.LENGTH_SHORT).show()
 
                         // 如果是被永久拒绝就跳转到应用权限系统设置页面
                         XXPermissions.startPermissionActivity(this@WelcomeActivity, permissions)
                     } else {
-                        Toast.makeText(this@WelcomeActivity, "获取录音存储和麦克风权限失败!", Toast.LENGTH_SHORT)
+                        Toast.makeText(this@WelcomeActivity, "获取录音存储和相机权限失败!", Toast.LENGTH_SHORT)
                             .show()
                     }
                 }
