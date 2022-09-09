@@ -31,7 +31,7 @@ class WelcomeActivity : AppCompatActivity() {
             // 设置权限请求拦截器（局部设置）
             //.interceptor(new PermissionInterceptor())
             // 设置不触发错误检测机制（局部设置）
-            //.unchecked()
+//            .unchecked()
             .request(object : OnPermissionCallback {
 
                 override fun onGranted(permissions: MutableList<String>, all: Boolean) {

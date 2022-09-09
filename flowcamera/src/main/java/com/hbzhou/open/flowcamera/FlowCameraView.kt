@@ -416,10 +416,10 @@ class FlowCameraView : FrameLayout {
         )
     }
 
-    private fun startVideoPlayInit() {
+    private fun startVideoPlayInit(uri: Uri) {
         if (mTextureView!!.isAvailable) {
             startVideoPlay(
-                videoFile!!,
+                uri,
                 object : OnVideoPlayPrepareListener {
                     override fun onPrepared() {
                         viewFinder.visibility = View.GONE
@@ -436,7 +436,7 @@ class FlowCameraView : FrameLayout {
                 ) {
 
                     startVideoPlay(
-                        videoFile!!,
+                        uri,
                         object : OnVideoPlayPrepareListener {
                             override fun onPrepared() {
                                 viewFinder.visibility =
@@ -468,7 +468,7 @@ class FlowCameraView : FrameLayout {
      * @param videoFile
      */
     private fun startVideoPlay(
-        videoFile: File,
+        uri: Uri,
         onVideoPlayPrepareListener: OnVideoPlayPrepareListener?,
     ) {
         try {
@@ -476,7 +476,7 @@ class FlowCameraView : FrameLayout {
             mMediaPlayer?.release()
             mMediaPlayer = null
             mMediaPlayer = MediaPlayer()
-            mMediaPlayer?.setDataSource(videoFile.absolutePath)
+            mMediaPlayer?.setDataSource(context, uri)
             mMediaPlayer?.setSurface(Surface(mTextureView?.surfaceTexture))
             mMediaPlayer?.isLooping = true
             mMediaPlayer?.setOnPreparedListener { mp: MediaPlayer ->
@@ -710,7 +710,7 @@ class FlowCameraView : FrameLayout {
             // display the captured video
             videoFile = getAbsolutePathFromUri(event.outputResults.outputUri)?.let { File(it) }
 
-            startVideoPlayInit()
+            startVideoPlayInit(event.outputResults.outputUri)
         }
     }
 
